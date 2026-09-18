@@ -216,7 +216,10 @@ export default async function MyRecordPage({
       ) : null}
 
       <section className="space-y-3">
-        <h2 className="text-lg font-semibold text-slate-900">{t('my.registrations')}</h2>
+        <div className="flex items-center justify-between gap-3">
+          <h2 className="text-lg font-semibold text-slate-900">{t('my.registrations')}</h2>
+          <Link href={`/${locale}/my/registrations/new`} className="rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-700">{t('my.applyRegistration')}</Link>
+        </div>
         {regs.length === 0 ? (
           <EmptyState message={t('common.noData')} />
         ) : (

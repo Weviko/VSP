@@ -436,6 +436,8 @@
     "registrations": "My registrations",
     "results": "Results",
     "submissions": "Submissions",
+    "applyRegistration": "Apply to register",
+    "noClub": "You must belong to a club/unit before registering.",
     "payments": "Fees",
     "noPerson": "This account is not linked to a personal record.",
     "workspaceHint": "You hold a work role in an organization.",
