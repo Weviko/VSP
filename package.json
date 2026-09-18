@@ -26,6 +26,7 @@
     "demo:scenario": "tsx scripts/demo-scenario.mts",
     "demo:all": "tsx scripts/demo-data.mts && tsx scripts/demo-scenario.mts",
     "rollout:provinces": "tsx scripts/rollout-provinces.mts",
+    "session:mint": "tsx scripts/mint-session.mts",
     "test:dates": "tsx scripts/test-date-types.mts",
     "test:forms": "tsx scripts/test-form-admin.mts",
     "test:grant": "tsx scripts/test-grant-flow.mts",
