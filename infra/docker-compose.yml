@@ -1,0 +1,41 @@
+# VSP 로컬/이식 가능 인프라
+# 원칙: 어느 호스트(로컬 PC / NAS / 베트남 서버)로 옮겨도 동일하게 기동되어야 한다.
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: vsp-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-vsp}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-vsp_dev_pw}
+      POSTGRES_DB: ${POSTGRES_DB:-vsp}
+      # 베트남어 정렬/검색을 위해 UTF-8 고정
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=C"
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-vsp}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # S3 호환 파일 저장소. 로컬/NAS/클라우드 어디서든 동일 API 사용
+  minio:
+    image: minio/minio:latest
+    container_name: vsp-minio
+    restart: unless-stopped
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_USER:-vspadmin}
+      MINIO_ROOT_PASSWORD: ${MINIO_PASSWORD:-vsp_dev_pw_minio}
+    ports:
+      - "${MINIO_PORT:-9000}:9000"
+      - "${MINIO_CONSOLE_PORT:-9001}:9001"
+    volumes:
+      - miniodata:/data
+
+volumes:
+  pgdata:
+  miniodata:

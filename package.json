@@ -1,0 +1,59 @@
+{
+  "name": "vsp",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Vietnam Sports Platform - 베트남 체육회 통합 플랫폼",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:platform": "npm run dev -w @vsp/platform",
+    "dev:portal": "npm run dev -w @vsp/portal",
+    "db:serve": "pglite-server --db=.pgdata --port=5432 --max-connections=30",
+    "build": "npm run build -w @vsp/platform && npm run build -w @vsp/portal",
+    "typecheck": "npm run typecheck -w @vsp/platform && npm run typecheck -w @vsp/portal",
+    "db:setup": "tsx scripts/db-setup.mts",
+    "db:reset": "tsx scripts/db-setup.mts --reset",
+    "db:up": "docker compose -f infra/docker-compose.yml up -d",
+    "db:down": "docker compose -f infra/docker-compose.yml down",
+    "test": "tsx scripts/verify-schema.mts && tsx scripts/test-date-types.mts && tsx scripts/test-bracket.mts && tsx scripts/smoke-test.mts && tsx scripts/test-event-flow.mts && tsx scripts/test-form-admin.mts && tsx scripts/test-grant-flow.mts && tsx scripts/test-infra.mts && tsx scripts/test-attachment-flow.mts && tsx scripts/test-import.mts && tsx scripts/test-org-import.mts && tsx scripts/test-ingest.mts && tsx scripts/test-llm-extractor.mts && tsx scripts/test-zalo.mts && tsx scripts/test-otp.mts && tsx scripts/test-payment.mts && tsx scripts/test-i18n.mts && tsx scripts/test-public-data.mts && tsx scripts/check-boundaries.mts",
+    "test:schema": "tsx scripts/verify-schema.mts",
+    "test:bracket": "tsx scripts/test-bracket.mts",
+    "test:smoke": "tsx scripts/smoke-test.mts",
+    "test:event": "tsx scripts/test-event-flow.mts",
+    "demo": "tsx scripts/demo-data.mts",
+    "demo:scenario": "tsx scripts/demo-scenario.mts",
+    "demo:all": "tsx scripts/demo-data.mts && tsx scripts/demo-scenario.mts",
+    "rollout:provinces": "tsx scripts/rollout-provinces.mts",
+    "test:dates": "tsx scripts/test-date-types.mts",
+    "test:forms": "tsx scripts/test-form-admin.mts",
+    "test:grant": "tsx scripts/test-grant-flow.mts",
+    "test:infra": "tsx scripts/test-infra.mts",
+    "test:attach": "tsx scripts/test-attachment-flow.mts",
+    "test:public": "tsx scripts/test-public-data.mts",
+    "check:boundaries": "tsx scripts/check-boundaries.mts",
+    "test:ingest": "tsx scripts/test-ingest.mts",
+    "test:llm": "tsx scripts/test-llm-extractor.mts",
+    "test:i18n": "tsx scripts/test-i18n.mts",
+    "test:import": "tsx scripts/test-import.mts",
+    "test:org-import": "tsx scripts/test-org-import.mts",
+    "test:zalo": "tsx scripts/test-zalo.mts",
+    "test:otp": "tsx scripts/test-otp.mts",
+    "test:payment": "tsx scripts/test-payment.mts"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "dotenv": "^17.4.2",
+    "exceljs": "^4.4.0",
+    "pg": "^8.23.0"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "^0.5.8",
+    "@electric-sql/pglite-socket": "^0.2.11",
+    "@types/pg": "^8.23.1",
+    "tsx": "^4.23.13"
+  }
+}

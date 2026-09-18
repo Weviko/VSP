@@ -1,0 +1,10 @@
+@import "tailwindcss";
+/* 공유 화면 부품의 클래스도 생성되게 한다 (앱 폴더 밖에 있어 자동 감지되지 않는다) */
+@source "../../../../packages/web-shared/src";
+
+@theme inline {
+  --font-sans: var(--font-sans), system-ui, -apple-system, "Segoe UI", sans-serif;
+}
+
+/* 표 안의 긴 조직명이 줄바꿈되도록 */
+.wrap-anywhere { overflow-wrap: anywhere; }

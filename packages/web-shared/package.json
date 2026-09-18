@@ -1,0 +1,8 @@
+{
+  "name": "@vsp/web-shared",
+  "version": "0.1.0",
+  "private": true,
+  "description": "두 웹 앱(대외 웹사이트·업무 플랫폼)이 함께 쓰는 화면 부품과 번역.",
+  "type": "module",
+  "exports": { "./*": "./src/*" }
+}

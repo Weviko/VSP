@@ -1,0 +1,45 @@
+name: CI
+
+# 출시 게이트를 자동 강제한다: 타입체크 → 전체 테스트(경계검사 포함) → 프로덕션 빌드.
+# 개발 DB는 인프로세스 PostgreSQL(PGlite)이라 외부 서비스가 필요 없다 — 러너에서 그대로 돈다.
+# 근거: docs/19-배포-준비.md (F. 보안·법규 게이트, E. 빌드).
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+# 같은 브랜치에 새 커밋이 오면 이전 실행은 취소한다.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install (clean, from lockfile)
+        run: npm ci
+
+      - name: Typecheck (platform + portal)
+        run: npm run typecheck
+
+      - name: Test (schema·flows·ingest·llm·public-data + boundary check)
+        run: npm test
+
+      - name: Build (platform + portal)
+        run: npm run build
+        env:
+          # 빌드 시 페이지는 force-dynamic 이라 DB에 접속하지 않지만, 값이 없으면 안전한 기본으로.
+          DATABASE_URL: pglite://.pgdata
+          NEXT_TELEMETRY_DISABLED: '1'

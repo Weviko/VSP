@@ -1,0 +1,63 @@
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "noEmit": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "jsx": "react-jsx",
+    "incremental": true,
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./src/*"
+      ],
+      "@vsp/core-admin": [
+        "../../packages/core-admin/src/index.ts"
+      ],
+      "@vsp/core-admin/*": [
+        "../../packages/core-admin/src/*"
+      ],
+      "@vsp/sport-domain": [
+        "../../packages/sport-domain/src/index.ts"
+      ],
+      "@vsp/sport-domain/*": [
+        "../../packages/sport-domain/src/*"
+      ],
+      "@vsp/web-shared/*": [
+        "../../packages/web-shared/src/*"
+      ],
+      "@vsp/public-data": [
+        "../../packages/public-data/src/index.ts"
+      ],
+      "@vsp/public-data/*": [
+        "../../packages/public-data/src/*"
+      ]
+    }
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts",
+    "**/*.mts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

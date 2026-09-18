@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(DATABASE_URL=pglite://../../.pgdata NODE_OPTIONS=--max-old-space-size=640 npm run start -w @vsp/portal)"
+    ]
+  }
+}
