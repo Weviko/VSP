@@ -91,11 +91,15 @@ export default async function ProposePage({
           </div>
           <div>
             <label className="block text-sm text-slate-700">{t('sponsor.budget')}</label>
-            <input
-              type="text" name="budget" maxLength={120}
-              placeholder={t('sponsor.budgetPh')}
-              className="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm"
-            />
+            <select name="budget" className="mt-1 w-full rounded border border-slate-300 px-3 py-2 text-sm">
+              <option value="">{t('sponsor.budgetPh')}</option>
+              <option value="5.000.000 ₫">5.000.000 ₫</option>
+              <option value="10.000.000 ₫">10.000.000 ₫</option>
+              <option value="30.000.000 ₫">30.000.000 ₫</option>
+              <option value="50.000.000 ₫">50.000.000 ₫</option>
+              <option value="100.000.000 ₫">100.000.000 ₫</option>
+              <option value="300.000.000 ₫">300.000.000 ₫</option>
+            </select>
           </div>
           <div>
             <label className="block text-sm text-slate-700">{t('sponsor.message')}</label>

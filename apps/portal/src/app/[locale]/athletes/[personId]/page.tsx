@@ -127,7 +127,7 @@ export default async function AthleteProfile({
               </p>
             </div>
             <a
-              href={`${platformUrl}/${locale}/sponsorship/propose`}
+              href={`${platformUrl}/${locale}/sponsorship/propose?athlete=${person.id}`}
               target="_blank"
               rel="noreferrer"
               className="shrink-0 rounded-lg bg-amber-500 px-6 py-3 text-sm font-bold text-white transition hover:bg-amber-600"
