@@ -24,6 +24,7 @@ export {
 } from './extractors/llm';
 export * from './subscribe';
 export * from './sponsorship';
+export * from './integrity';
 export * from './content';
 export * from './content-admin';
 export * from './fan';

@@ -95,6 +95,7 @@ export default async function PortalLayout({
             { key: 'disclosure', href: `${base}/orgs/disclosure`, label: t('nav.disclosure') },
             { key: 'openinfo', href: `${base}/info`, label: t('nav.openinfo') },
             { key: 'verify', href: `${base}/verify`, label: t('nav.verify') },
+            { key: 'integrity', href: `${base}/integrity`, label: t('nav.integrity') },
           ]}
         >
           {children}

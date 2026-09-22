@@ -367,3 +367,85 @@ export async function mergeOrganization(
     );
   });
 }
+
+// ── 권한·담당자 관리 (RBAC) ────────────────────────────────────────────────
+// 업무 담당자(문체부·성/시·연맹·클럽)를 조직별 역할로 배정/회수한다. 회수는 endMembership 사용.
+
+const WORKSPACE_ROLE_CODES = ['SYS_ADMIN', 'GOV_ADMIN', 'ORG_HEAD', 'ORG_STAFF', 'ORG_FINANCE', 'ORG_MEDIA'];
+
+export interface WorkspaceRole { code: string; name_i18n: I18nText; }
+
+/** 배정 가능한 업무 역할 목록(드롭다운용). */
+export async function listWorkspaceRoles(): Promise<WorkspaceRole[]> {
+  return query<WorkspaceRole>(
+    `SELECT code, name_i18n FROM core.role WHERE code = ANY($1)
+      ORDER BY array_position($1::text[], code)`,
+    [WORKSPACE_ROLE_CODES]
+  );
+}
+
+export interface OperatorRow {
+  member_id: UUID;
+  person_id: UUID;
+  full_name: string;
+  org_id: UUID;
+  org_name: I18nText;
+  role_code: string;
+  role_name: I18nText;
+  title: string | null;
+  valid_from: string;
+}
+
+/** 현재 유효한 업무 담당자(조직별 역할) 목록. */
+export async function listOperators(filter: { orgId?: UUID | null; roleCode?: string | null } = {}): Promise<OperatorRow[]> {
+  return query<OperatorRow>(
+    `SELECT m.id AS member_id, m.person_id, p.full_name, m.org_id, o.name_i18n AS org_name,
+            m.role_code, r.name_i18n AS role_name, m.title, m.valid_from::text AS valid_from
+       FROM core.org_member m
+       JOIN core.person p ON p.id = m.person_id
+       JOIN core.organization o ON o.id = m.org_id
+       JOIN core.role r ON r.code = m.role_code
+      WHERE m.role_code = ANY($1)
+        AND (m.valid_to IS NULL OR m.valid_to >= CURRENT_DATE)
+        AND ($2::uuid IS NULL OR m.org_id = $2)
+        AND ($3::text IS NULL OR m.role_code = $3)
+      ORDER BY o.name_i18n->>'vi', p.full_name`,
+    [WORKSPACE_ROLE_CODES, filter.orgId ?? null, filter.roleCode ?? null]
+  );
+}
+
+export class AccessError extends Error {
+  constructor(public code: string) { super(code); }
+}
+
+/** 담당자에게 조직 역할 부여. 이미 유효한 동일 배정이 있으면 그대로 둔다. */
+export async function assignRole(
+  input: { personId: UUID; orgId: UUID; roleCode: string; title?: string | null },
+  actor: { personId?: UUID | null; orgId?: UUID | null } = {}
+): Promise<UUID> {
+  if (!WORKSPACE_ROLE_CODES.includes(input.roleCode)) throw new AccessError('INVALID_ROLE');
+  return tx(async (client) => {
+    const existing = (await client.query<{ id: UUID }>(
+      `SELECT id FROM core.org_member
+        WHERE person_id=$1 AND org_id=$2 AND role_code=$3
+          AND (valid_to IS NULL OR valid_to >= CURRENT_DATE) LIMIT 1`,
+      [input.personId, input.orgId, input.roleCode]
+    )).rows[0];
+    if (existing) return existing.id;
+    const row = (await client.query<{ id: UUID }>(
+      `INSERT INTO core.org_member (person_id, org_id, role_code, title)
+       VALUES ($1,$2,$3,$4) RETURNING id`,
+      [input.personId, input.orgId, input.roleCode, input.title ?? null]
+    )).rows[0];
+    await writeAudit(
+      {
+        actorPersonId: actor.personId, actorOrgId: actor.orgId ?? input.orgId,
+        entitySchema: 'core', entityTable: 'org_member', entityId: row.id,
+        action: 'ASSIGN_ROLE',
+        after: { person: input.personId, org: input.orgId, role: input.roleCode, title: input.title ?? null },
+      },
+      client
+    );
+    return row.id;
+  });
+}

@@ -1032,3 +1032,55 @@ export async function verifyCertificate(code: string): Promise<VerificationResul
     subjectName: row.subject_name,
   };
 }
+
+// ── 공정·윤리 신고 (공개) ──────────────────────────────────────────────────
+// 종결·공개된 사건의 비식별 요약과, 접수번호로 진행 상태만 조회한다.
+// 신원(제보자·피해자·피신고자)은 pub 에 없으므로 여기서 나올 수 없다(규칙은 020).
+
+export interface PublicIntegrityCase {
+  case_no: string;
+  category: string;
+  sport_name: I18nText | null;
+  public_summary_i18n: I18nText | null;
+  measure_type: string | null;
+  decided_at: string | null;
+  closed_at: string | null;
+}
+
+/** 종결·공개된 사건 목록(비식별). */
+export async function listIntegrityCases(limit = 50): Promise<PublicIntegrityCase[]> {
+  return query<PublicIntegrityCase>(
+    `SELECT * FROM pub.integrity_case ORDER BY closed_at DESC NULLS LAST LIMIT $1`,
+    [Math.min(Math.max(limit, 1), 200)]
+  );
+}
+
+export interface IntegrityTrackResult {
+  found: boolean;
+  caseNo?: string;
+  status?: string;
+  category?: string;
+  receivedAt?: string | null;
+  decidedAt?: string | null;
+  closedAt?: string | null;
+}
+
+/** 접수번호(평문) 한 건으로 진행 상태만 답한다. 본문·관계인은 반환하지 않는다(DB 함수로만 열림). */
+export async function trackIntegrityReport(code: string): Promise<IntegrityTrackResult> {
+  const normalized = code.trim().toUpperCase();
+  if (!/^[A-Z0-9]{6,16}$/.test(normalized)) return { found: false };
+  const row = await queryOne<{
+    case_no: string; status: string; category: string;
+    received_at: string | null; decided_at: string | null; closed_at: string | null;
+  }>(`SELECT * FROM pub.track_integrity_report($1)`, [normalized]);
+  if (!row) return { found: false };
+  return {
+    found: true,
+    caseNo: row.case_no,
+    status: row.status,
+    category: row.category,
+    receivedAt: row.received_at,
+    decidedAt: row.decided_at,
+    closedAt: row.closed_at,
+  };
+}

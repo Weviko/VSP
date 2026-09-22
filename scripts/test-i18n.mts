@@ -94,9 +94,14 @@ const CONTRACT: Array<[string, string[]]> = [
   ['news.source', ['AUTO', 'PRESS', 'ORG', 'PARTNER']],
   ['score', ['scheduled', 'ongoing', 'finished', 'cheer', 'live', 'record']],
   ['poll', ['setDRAFT', 'setOPEN', 'setCLOSED']],
+  // 공정·윤리 신고: 유형·상태·조치유형을 t(`integrity.cat|st|mt.${x}`) 로 렌더
+  ['integrity.cat', ['VIOLENCE', 'SEXUAL', 'MATCH_FIXING', 'CORRUPTION', 'OTHER']],
+  ['integrity.st', ['RECEIVED', 'SCREENING', 'INVESTIGATING', 'DECIDED', 'CLOSED', 'DISMISSED']],
+  ['integrity.mt', ['WARNING', 'SUSPENSION', 'BAN', 'EDU_ORDER', 'REFERRAL']],
   // 업무 좌측 메뉴는 t(`nav.${key}`) 로 렌더된다
   ['nav', ['dashboard', 'ingest', 'approvals', 'organizations', 'people', 'registrations', 'seasons', 'import',
-    'certificates', 'events', 'payments', 'grants', 'content', 'polls', 'ads', 'documents', 'notifications', 'audit', 'reports', 'settings']],
+    'certificates', 'events', 'payments', 'grants', 'sponsors', 'content', 'polls', 'ads', 'users', 'integrity',
+    'documents', 'notifications', 'audit', 'reports', 'settings']],
 ];
 for (const [prefix, values] of CONTRACT) {
   const miss = values.filter((v) => !koKeys.has(`${prefix}.${v}`));

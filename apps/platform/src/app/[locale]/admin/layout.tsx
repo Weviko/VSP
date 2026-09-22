@@ -53,6 +53,8 @@ const MENU_GROUPS = [
   {
     key: 'admin',
     items: [
+      { key: 'users', path: '/users' },
+      { key: 'integrity', path: '/integrity' },
       { key: 'documents', path: '/documents' },
       { key: 'ads', path: '/ads' },
       { key: 'notifications', path: '/notifications' },
