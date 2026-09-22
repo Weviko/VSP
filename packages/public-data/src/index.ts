@@ -527,6 +527,80 @@ export async function listSponsorshipOpen(limit = 60): Promise<SponsorshipOpenRo
   );
 }
 
+/** 개별 선수의 후원(open) 정보. 후원 대상이 아니면 null. 선수 상세의 후원 배너용. */
+export async function getSponsorship(personId: string): Promise<SponsorshipOpenRow | null> {
+  if (!isUuid(personId)) return null;
+  return queryOne<SponsorshipOpenRow>(
+    `SELECT person_id, full_name, name_latin, gender, birth_year, photo_url, headline_i18n, followers
+       FROM pub.sponsorship_open WHERE person_id = $1`,
+    [personId]
+  );
+}
+
+// ── 지도자(코치·감독·선수관리) 공개 ────────────────────────────────────────
+
+export interface StaffPerson {
+  id: UUID;
+  display_id: string | null;
+  full_name: string;
+  name_latin: string | null;
+  gender: string | null;
+  birth_year: number;
+  photo_url: string | null;
+}
+export interface StaffRegistration {
+  registration_id: UUID;
+  reg_type: string;            // COACH / MANAGER
+  sport_code: string | null;
+  sport_name: I18nText;
+  org_name: I18nText;
+  region_code: string | null;
+  team_name: I18nText | null;
+}
+export interface StaffListRow extends StaffPerson {
+  reg_type: string;
+  sport_name: I18nText | null;
+  org_name: I18nText | null;
+  region_code: string | null;
+}
+
+/** 지도자(코치·감독) 공개 목록. 한 사람당 한 행(대표 역할). */
+export async function listStaff(filter: { sportId?: string | null; limit?: number } = {}): Promise<StaffListRow[]> {
+  const sport = filter.sportId && isUuid(filter.sportId) ? filter.sportId : null;
+  return query<StaffListRow>(
+    `SELECT * FROM (
+        SELECT DISTINCT ON (st.person_id)
+               st.person_id AS id, st.display_id, st.full_name, st.name_latin,
+               st.gender, st.birth_year, st.photo_url,
+               sr.reg_type, sr.sport_name, sr.org_name, sr.region_code
+          FROM pub.staff st
+          JOIN pub.staff_registration sr ON sr.person_id = st.person_id
+         WHERE ($1::uuid IS NULL OR sr.sport_id = $1)
+         ORDER BY st.person_id, sr.reg_type
+     ) x
+     ORDER BY x.full_name
+     LIMIT $2`,
+    [sport, filter.limit ?? 200]
+  );
+}
+
+/** 지도자 한 명의 공개 프로필 + 역할·소속. 지도자가 아니면 null. */
+export async function getStaff(personId: string): Promise<{ person: StaffPerson; registrations: StaffRegistration[] } | null> {
+  if (!isUuid(personId)) return null;
+  const person = await queryOne<StaffPerson>(
+    `SELECT person_id AS id, display_id, full_name, name_latin, gender, birth_year, photo_url
+       FROM pub.staff WHERE person_id = $1`,
+    [personId]
+  );
+  if (!person) return null;
+  const registrations = await query<StaffRegistration>(
+    `SELECT registration_id, reg_type, sport_code, sport_name, org_name, region_code, team_name
+       FROM pub.staff_registration WHERE person_id = $1`,
+    [personId]
+  );
+  return { person, registrations };
+}
+
 // ── 구독자 수 (MY팀 인기 지표) ────────────────────────────────────────────
 
 /** 대상별 구독자 수 (공개 집계). 누가 구독했는지는 나오지 않는다. PERSON = 선수 팔로워. */

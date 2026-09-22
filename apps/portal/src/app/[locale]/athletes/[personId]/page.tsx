@@ -1,8 +1,8 @@
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import {
-  getAthlete, listAthleteRegistrations, listAthleteResults, subscriberCount, cheerCount,
-  REG_TYPE_LABELS, t as pick,
+  getAthlete, getStaff, listAthleteRegistrations, listAthleteResults, subscriberCount, cheerCount,
+  getSponsorship, REG_TYPE_LABELS, t as pick,
 } from '@vsp/public-data';
 import { isLocale, type Locale } from '@vsp/web-shared/i18n/config';
 import { getMessages } from '@vsp/web-shared/i18n';
@@ -28,13 +28,58 @@ export default async function AthleteProfile({
   const t = getMessages(locale);
 
   const person = await getAthlete(personId);
-  if (!person) notFound();
+  if (!person) {
+    // 선수가 아니면 지도자(코치·감독)로 조회
+    const staff = await getStaff(personId);
+    if (!staff) notFound();
+    const roles = [...new Set(staff.registrations.map((r) => r.reg_type))];
+    return (
+      <div className="space-y-8">
+        <div className="flex flex-wrap items-start gap-6">
+          <div className="h-28 w-28 shrink-0 overflow-hidden rounded-lg bg-slate-200">
+            {staff.person.photo_url ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img src={staff.person.photo_url} alt={staff.person.full_name} className="h-full w-full object-cover" />
+            ) : null}
+          </div>
+          <div>
+            <h1 className="text-2xl font-bold text-slate-900">{staff.person.full_name}</h1>
+            {staff.person.name_latin ? <p className="text-slate-500">{staff.person.name_latin}</p> : null}
+            <p className="mt-2 text-sm text-slate-600 tabular-nums">
+              {staff.person.birth_year}{staff.person.gender ? ` · ${staff.person.gender}` : ''}
+            </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {roles.map((rt) => (
+                <Badge key={rt} tone="blue">
+                  {pick(REG_TYPE_LABELS[rt as keyof typeof REG_TYPE_LABELS] ?? REG_TYPE_LABELS.COACH, locale)}
+                </Badge>
+              ))}
+            </div>
+          </div>
+        </div>
+        <section className="space-y-3">
+          <h2 className="text-lg font-semibold text-slate-900">{t('person.registrations')}</h2>
+          <Table head={[t('search.sport'), t('person.role'), t('org.name'), t('search.team')]}>
+            {staff.registrations.map((r) => (
+              <Tr key={r.registration_id}>
+                <Td className="text-slate-700">{pick(r.sport_name, locale)}</Td>
+                <Td>{pick(REG_TYPE_LABELS[r.reg_type as keyof typeof REG_TYPE_LABELS] ?? REG_TYPE_LABELS.COACH, locale)}</Td>
+                <Td className="text-slate-600 wrap-anywhere">{pick(r.org_name, locale)}</Td>
+                <Td className="text-slate-600">{r.team_name ? pick(r.team_name, locale) : '—'}</Td>
+              </Tr>
+            ))}
+          </Table>
+        </section>
+      </div>
+    );
+  }
 
-  const [regs, results, followers, cheers] = await Promise.all([
+  const [regs, results, followers, cheers, sponsorship] = await Promise.all([
     listAthleteRegistrations({ personId: person.id, limit: 20 }),
     listAthleteResults(person.id),
     subscriberCount('PERSON', person.id).catch(() => 0),
     cheerCount('PERSON', person.id).catch(() => 0),
+    getSponsorship(person.id).catch(() => null),
   ]);
   const platformUrl = process.env.VSP_PLATFORM_URL ?? 'http://localhost:3001';
   // 메달 집계 (금·은·동)
@@ -67,6 +112,31 @@ export default async function AthleteProfile({
           </div>
         </div>
       </div>
+
+      {/* 후원(스폰서) 배너 — 후원 대상 선수일 때만. 실제 제안은 업무 플랫폼에서. */}
+      {sponsorship ? (
+        <section className="rounded-xl border border-amber-300 bg-amber-50 p-5">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="min-w-0">
+              <p className="text-sm font-bold text-amber-900">{t('sponsor.title')}</p>
+              {sponsorship.headline_i18n ? (
+                <p className="mt-1 text-slate-800 wrap-anywhere">{pick(sponsorship.headline_i18n, locale)}</p>
+              ) : null}
+              <p className="mt-1 text-xs text-slate-500">
+                {t('sponsor.followers')} {sponsorship.followers.toLocaleString()} · {t('sponsor.notePlatform')}
+              </p>
+            </div>
+            <a
+              href={`${platformUrl}/${locale}/sponsorship/propose`}
+              target="_blank"
+              rel="noreferrer"
+              className="shrink-0 rounded-lg bg-amber-500 px-6 py-3 text-sm font-bold text-white transition hover:bg-amber-600"
+            >
+              {t('sponsor.propose')}
+            </a>
+          </div>
+        </section>
+      ) : null}
 
       {/* 인기·성과 지표 + 구독·응원 (실제 참여는 로그인 플랫폼에서) */}
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
