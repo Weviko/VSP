@@ -601,6 +601,28 @@ export async function getStaff(personId: string): Promise<{ person: StaffPerson;
   return { person, registrations };
 }
 
+// ── 경기 라인업(개별 선수) ─────────────────────────────────────────────────
+
+export interface MatchRosterPlayer {
+  side: string | null;
+  person_id: UUID;
+  full_name: string;
+  name_latin: string | null;
+  team_id: UUID | null;
+  team_name: I18nText | null;
+}
+
+/** 경기의 라인업(개별 선수). 개인전은 참가자, 단체전은 팀 로스터. 공개 선수만. */
+export async function getMatchRoster(matchId: string): Promise<MatchRosterPlayer[]> {
+  if (!isUuid(matchId)) return [];
+  return query<MatchRosterPlayer>(
+    `SELECT side, person_id, full_name, name_latin, team_id, team_name
+       FROM pub.match_roster WHERE match_id = $1
+      ORDER BY side, full_name`,
+    [matchId]
+  );
+}
+
 // ── 구독자 수 (MY팀 인기 지표) ────────────────────────────────────────────
 
 /** 대상별 구독자 수 (공개 집계). 누가 구독했는지는 나오지 않는다. PERSON = 선수 팔로워. */

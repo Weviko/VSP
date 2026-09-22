@@ -1,8 +1,9 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import {
-  getMatch, listMatchRelay, listNews, listVideos, listOpenPolls, cheerCount, formatScore, t as pick,
+  getMatch, getMatchRoster, listMatchRelay, listNews, listVideos, listOpenPolls, cheerCount, formatScore, t as pick,
   type BoxScore, type PublicMatchDetail, type RelayItem, type NewsItem, type VideoItem, type PollPublic,
+  type MatchRosterPlayer,
 } from '@vsp/public-data';
 import { isLocale, type Locale } from '@vsp/web-shared/i18n/config';
 import { getMessages } from '@vsp/web-shared/i18n';
@@ -50,12 +51,13 @@ export default async function MatchDetail({
   const tab: Tab = TABS.includes(tabRaw as Tab) ? (tabRaw as Tab) : 'record';
 
   // 활성 탭의 콘텐츠만 조회한다 (서버 렌더, 필요한 것만).
-  const [relay, news, videos, polls, cheers] = await Promise.all([
+  const [relay, news, videos, polls, cheers, roster] = await Promise.all([
     tab === 'relay' ? listMatchRelay(m.id).catch(() => []) : Promise.resolve([] as RelayItem[]),
     tab === 'news' ? listNews({ eventId: m.event_id, limit: 20 }).catch(() => []) : Promise.resolve([] as NewsItem[]),
     tab === 'video' ? listVideos({ matchId: m.id, limit: 12 }).catch(() => []) : Promise.resolve([] as VideoItem[]),
     tab === 'cheer' ? listOpenPolls({ eventId: m.event_id }).catch(() => []) : Promise.resolve([] as PollPublic[]),
     tab === 'cheer' ? cheerCount('EVENT', m.event_id).catch(() => 0) : Promise.resolve(0),
+    tab === 'lineup' ? getMatchRoster(m.id).catch(() => []) : Promise.resolve([] as MatchRosterPlayer[]),
   ]);
   const platformUrl = process.env.VSP_PLATFORM_URL ?? 'http://localhost:3001';
   const a = m.sides.find((s) => s.side && ['A', 'HOME'].includes(s.side)) ?? m.sides[0];
@@ -105,7 +107,7 @@ export default async function MatchDetail({
       </nav>
 
       {tab === 'record' ? <RecordTab box={m.box_score} sides={m.sides} t={t} /> : null}
-      {tab === 'lineup' ? <LineupTab sides={m.sides} t={t} /> : null}
+      {tab === 'lineup' ? <LineupTab sides={m.sides} roster={roster} locale={locale} t={t} /> : null}
       {tab === 'relay' ? <RelayTab items={relay} locale={locale} t={t} /> : null}
       {tab === 'news' ? <NewsTab items={news} locale={locale} t={t} /> : null}
       {tab === 'video' ? <VideoTab items={videos} locale={locale} t={t} /> : null}
@@ -165,7 +167,37 @@ function RecordTab({
   );
 }
 
-function LineupTab({ sides, t }: { sides: Sides; t: (k: string) => string }) {
+function LineupTab({ sides, roster, locale, t }: { sides: Sides; roster: MatchRosterPlayer[]; locale: Locale; t: (k: string) => string }) {
+  // 개별 선수 로스터가 있으면 팀별로 묶어 선수 프로필 링크를 보여준다(네이버식 드릴다운).
+  if (roster.length > 0) {
+    const bySide = new Map<string, MatchRosterPlayer[]>();
+    for (const p of roster) {
+      const k = p.side ?? '-';
+      if (!bySide.has(k)) bySide.set(k, []);
+      bySide.get(k)!.push(p);
+    }
+    return (
+      <div className="grid gap-4 sm:grid-cols-2">
+        {[...bySide.entries()].map(([side, players]) => (
+          <div key={side} className="rounded-lg border border-slate-200 bg-white p-4">
+            <p className="text-sm font-bold text-slate-900 wrap-anywhere">
+              {players[0].team_name ? pick(players[0].team_name, locale) : side}
+            </p>
+            <ul className="mt-2 space-y-1">
+              {players.map((p) => (
+                <li key={p.person_id}>
+                  <Link href={`/${locale}/athletes/${p.person_id}`} className="text-sm text-slate-700 hover:text-slate-950 hover:underline">
+                    {p.name_latin ?? p.full_name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    );
+  }
+  // 로스터가 없으면 팀(참가자)만
   if (sides.length === 0) return <EmptyState message={t('common.noData')} />;
   return (
     <ul className="grid gap-2 sm:grid-cols-2">
