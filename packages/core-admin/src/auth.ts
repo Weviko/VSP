@@ -135,6 +135,9 @@ export async function issueOtp(
 
   const issued: OtpIssued = { challengeId: row!.id, phone, expiresAt: row!.expires_at };
   const isProd = process.env.NODE_ENV === 'production';
+  // 데모 배포 전용: DEMO_LOGIN=1 이면 운영 빌드에서도 OTP 를 화면(devCode)에 표시해 로그인할 수 있다.
+  // ⚠ 실운영에서는 반드시 미설정(끄고) 실제 발송 어댑터(Zalo)를 쓴다 — 켜두면 인증코드가 화면에 노출된다.
+  const demoLogin = process.env.DEMO_LOGIN === '1';
 
   // 발송 — 로그인 시점엔 사용자 언어를 모르므로 화면 언어(없으면 베트남어)로 보낸다
   const body = renderTemplate('OTP_LOGIN', opts.locale ?? 'vi', { code, min: OTP_TTL_MINUTES });
@@ -146,17 +149,17 @@ export async function issueOtp(
         vars: { code, min: OTP_TTL_MINUTES },
       });
     } catch (e) {
-      // 운영에서는 발송 실패를 로그인 성공으로 위장하지 않는다
-      if (isProd) throw new AuthError('OTP_SEND_FAILED', e instanceof Error ? e.message : undefined);
-      // 개발에서는 발송이 실패해도 devCode 로 계속 진행한다
+      // 운영에서는 발송 실패를 로그인 성공으로 위장하지 않는다 (데모 모드 제외)
+      if (isProd && !demoLogin) throw new AuthError('OTP_SEND_FAILED', e instanceof Error ? e.message : undefined);
+      // 개발/데모에서는 발송이 실패해도 devCode 로 계속 진행한다
     }
   }
 
-  if (isProd) {
+  if (isProd && !demoLogin) {
     // 실제 도달(개발용 콘솔 어댑터 제외)이 확인돼야만 발급을 인정한다
     if (!delivered) throw new AuthError('OTP_NOT_CONFIGURED');
   } else {
-    // 개발 편의: 화면에서 코드를 바로 확인할 수 있게 한다
+    // 개발/데모 편의: 화면에서 코드를 바로 확인할 수 있게 한다
     issued.devCode = code;
   }
   return issued;
