@@ -126,7 +126,7 @@ async function createPgliteDriver(url: string): Promise<Driver> {
       return { rows: res.rows as T[], rowCount: res.rows.length };
     },
     async transaction<T>(fn: (c: DbClient) => Promise<T>) {
-      return db.transaction(async (tx) => {
+      return db.transaction(async (tx: { query: (text: string, params?: unknown[]) => Promise<{ rows: unknown[] }> }) => {
         return fn({
           async query<R>(text: string, params: unknown[] = []) {
             const r = await tx.query(text, params as unknown[]);
