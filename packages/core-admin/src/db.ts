@@ -108,7 +108,9 @@ async function resolvePgliteDir(raw: string): Promise<string> {
 
 /** 인프로세스 PostgreSQL (PGlite). 개발용 — Docker도 별도 서버도 필요 없다. */
 async function createPgliteDriver(url: string): Promise<Driver> {
-  const { PGlite } = await import('@electric-sql/pglite');
+  // 개발 전용(pglite://). 운영 빌드가 이 개발 의존성을 번들·해석하지 않도록 변수 지정자로 동적 import 한다.
+  const pgliteSpecifier = '@electric-sql/pglite';
+  const { PGlite } = await import(/* webpackIgnore: true */ /* @vite-ignore */ pgliteSpecifier);
   const dir = await resolvePgliteDir(url.replace(/^pglite:\/\//, '') || '.pgdata');
   // pg 드라이버와 동일하게 날짜·시각을 문자열로 유지한다.
   // 두 드라이버가 다른 타입을 돌려주면 개발과 운영에서 화면이 달라진다.
