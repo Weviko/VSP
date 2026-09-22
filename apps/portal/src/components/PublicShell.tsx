@@ -49,14 +49,17 @@ export function PublicShell({
 }) {
   return (
     <>
-      <header className="sticky top-0 z-20 bg-white/95 backdrop-blur">
+      {/* 브랜드 액센트 바 */}
+      <div className="h-1 w-full bg-gradient-to-r from-[#15607A] via-[#1c7fa0] to-[#15607A]" />
+
+      <header className="sticky top-0 z-20 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
         {/* ① 유틸리티 줄 */}
         <div className="border-b border-slate-100 bg-slate-50">
           <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-1.5">
-            <ul className="flex gap-3 overflow-x-auto text-xs text-slate-600">
+            <ul className="flex gap-4 overflow-x-auto text-xs text-slate-500">
               {utilities.map((u) => (
                 <li key={u.key} className="shrink-0">
-                  <Link href={u.href} className="hover:text-slate-900">
+                  <Link href={u.href} className="transition-colors hover:text-[#15607A]">
                     {u.label}
                   </Link>
                 </li>
@@ -67,7 +70,7 @@ export function PublicShell({
               {/* 로그인은 업무 플랫폼에서 한다. 이 사이트에는 계정 기능이 없다. */}
               <a
                 href={loginHref}
-                className="rounded border border-slate-300 bg-white px-2.5 py-1 text-xs font-medium text-slate-700 hover:bg-slate-100"
+                className="rounded-md bg-[#15607A] px-3 py-1 text-xs font-semibold text-white transition hover:bg-[#0e4356]"
               >
                 {loginLabel}
               </a>
@@ -75,20 +78,22 @@ export function PublicShell({
           </div>
         </div>
 
-        {/* ② 종목 탭 줄 — 1단 */}
+        {/* ② 로고 + 종목 탭 줄 */}
         <div className="border-b border-slate-200">
-          <div className="mx-auto flex max-w-7xl items-center gap-6 px-4">
-            <Link href={`/${locale}`} className="flex shrink-0 items-baseline gap-2 py-3">
-              <span className="text-lg font-bold text-slate-900">{appShort}</span>
-              <span className="hidden text-sm text-slate-500 lg:inline">{appName}</span>
+          <div className="mx-auto flex max-w-7xl items-center gap-5 px-4">
+            <Link href={`/${locale}`} className="flex shrink-0 items-center gap-2.5 py-2.5">
+              <span className="grid h-9 w-9 place-items-center rounded-lg bg-[#15607A] text-sm font-bold tracking-tight text-white shadow-sm">
+                VSP
+              </span>
+              <span className="hidden text-[15px] font-bold leading-tight text-slate-900 sm:block">{appName}</span>
             </Link>
             <nav className="min-w-0 flex-1">
-              <ul className="flex gap-1 overflow-x-auto">
+              <ul className="flex gap-0.5 overflow-x-auto">
                 {sportTabs.map((s) => (
                   <li key={s.key} className="shrink-0">
                     <Link
                       href={s.href}
-                      className="block px-3 py-3 text-sm font-semibold text-slate-800 hover:text-slate-950"
+                      className="block border-b-2 border-transparent px-3 py-3 text-sm font-semibold text-slate-700 transition-colors hover:border-[#15607A] hover:text-[#15607A]"
                     >
                       {s.label}
                     </Link>
@@ -99,14 +104,14 @@ export function PublicShell({
           </div>
         </div>
 
-        {/* ③ 기능 줄 — 2단 */}
+        {/* ③ 기능 줄 */}
         <nav className="border-b border-slate-200 bg-white">
-          <ul className="mx-auto flex max-w-7xl gap-1 overflow-x-auto px-4">
+          <ul className="mx-auto flex max-w-7xl gap-0.5 overflow-x-auto px-4">
             {sections.map((s) => (
               <li key={s.key} className="shrink-0">
                 <Link
                   href={s.href}
-                  className="block px-3 py-2 text-sm text-slate-600 hover:text-slate-900"
+                  className="block border-b-2 border-transparent px-3 py-2 text-sm text-slate-600 transition-colors hover:border-[#15607A] hover:text-[#15607A]"
                 >
                   {s.label}
                 </Link>
@@ -116,17 +121,18 @@ export function PublicShell({
         </nav>
       </header>
 
-      {/* ad slot: HOME_TOP (정의만 되어 있고 비활성). 광고는 이 사이트에만 둔다 — 업무 플랫폼에는 두지 않는다. */}
+      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-6">{children}</main>
 
-      <main className="mx-auto w-full max-w-7xl flex-1 px-4 py-8">{children}</main>
-
-      <footer className="border-t border-slate-200 bg-white py-6">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-2 px-4 text-sm text-slate-500">
-          <span>{appName} · VSP</span>
-          <ul className="flex gap-3">
+      <footer className="mt-4 border-t border-slate-200 bg-white py-8">
+        <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 px-4">
+          <div className="flex items-center gap-2.5">
+            <span className="grid h-7 w-7 place-items-center rounded-md bg-[#15607A] text-[11px] font-bold text-white">VSP</span>
+            <span className="text-sm font-medium text-slate-600">{appName}</span>
+          </div>
+          <ul className="flex flex-wrap gap-4 text-sm text-slate-500">
             {utilities.map((u) => (
               <li key={u.key}>
-                <Link href={u.href} className="hover:text-slate-800">
+                <Link href={u.href} className="transition-colors hover:text-[#15607A]">
                   {u.label}
                 </Link>
               </li>

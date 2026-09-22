@@ -79,7 +79,7 @@ export default async function PublicHome({ params }: { params: Promise<{ locale:
       {/* 경기 스코어 스트립 (네이버 스포츠 상단) */}
       <section className="space-y-2">
         <div className="flex items-baseline justify-between">
-          <h2 className="text-base font-bold text-slate-900">{t('score.title')}</h2>
+          <h2 className="border-l-[3px] border-[#15607A] pl-2.5 text-base font-bold text-slate-900">{t('score.title')}</h2>
           <Link href={`/${locale}/scoreboard`} className="text-sm text-slate-500 hover:text-slate-900">{t('common.total')} →</Link>
         </div>
         {scores.length === 0 ? (
@@ -121,7 +121,7 @@ export default async function PublicHome({ params }: { params: Promise<{ locale:
         {/* 뉴스 */}
         <section className="space-y-3 lg:col-span-2">
           <div className="flex items-baseline justify-between">
-            <h2 className="text-base font-bold text-slate-900">{t('nav.news')}</h2>
+            <h2 className="border-l-[3px] border-[#15607A] pl-2.5 text-base font-bold text-slate-900">{t('nav.news')}</h2>
             <Link href={`/${locale}/news`} className="text-sm text-slate-500 hover:text-slate-900">{t('common.total')} →</Link>
           </div>
           {news.length === 0 ? (
@@ -170,7 +170,7 @@ export default async function PublicHome({ params }: { params: Promise<{ locale:
           {upcoming.length > 0 ? (
             <div className="space-y-2 pt-2">
               <div className="flex items-baseline justify-between">
-                <h2 className="text-base font-bold text-slate-900">{t('event.title')}</h2>
+                <h2 className="border-l-[3px] border-[#15607A] pl-2.5 text-base font-bold text-slate-900">{t('event.title')}</h2>
                 <Link href={`/${locale}/events`} className="text-sm text-slate-500 hover:text-slate-900">{t('common.total')} →</Link>
               </div>
               <div className="-mx-1 flex snap-x gap-3 overflow-x-auto px-1 pb-1">
@@ -255,7 +255,7 @@ export default async function PublicHome({ params }: { params: Promise<{ locale:
               </ul>
             )}
             <Link href={`/${locale}/sponsorship`}
-              className="mt-3 block rounded-lg bg-slate-900 px-3 py-2 text-center text-sm font-semibold text-white transition hover:bg-slate-700">
+              className="mt-3 block rounded-lg bg-[#15607A] px-3 py-2 text-center text-sm font-semibold text-white transition hover:bg-[#0e4356]">
               {t('sponsor.open')}
             </Link>
           </div>
