@@ -150,6 +150,30 @@ export async function listProposalsForAthlete(personId: UUID): Promise<ProposalR
   );
 }
 
+export interface ProposalListRow extends ProposalRow {
+  athlete_name: string | null;
+}
+
+/** 협회 관리용 — 전체 후원 제안 목록(선수명 포함). 업무 화면에서만 호출. */
+export async function listAllProposals(filter: { status?: string | null; limit?: number } = {}): Promise<ProposalListRow[]> {
+  return query<ProposalListRow>(
+    `SELECT pr.*, p.full_name AS athlete_name
+       FROM sponsorship.proposal pr
+       LEFT JOIN core.person p ON p.id = pr.athlete_person_id
+      WHERE ($1::text IS NULL OR pr.status = $1)
+      ORDER BY pr.created_at DESC
+      LIMIT $2`,
+    [filter.status ?? null, filter.limit ?? 200]
+  );
+}
+
+/** 후원 제안 상태별 집계 (관리 화면 요약). */
+export async function proposalSummary(): Promise<Array<{ status: string; n: number }>> {
+  return query<{ status: string; n: number }>(
+    `SELECT status, count(*)::int AS n FROM sponsorship.proposal GROUP BY status ORDER BY n DESC`
+  );
+}
+
 /** 제안 수락/거절. 자기에게 온 제안만. 계약·정산은 플랫폼 밖에서 한다. */
 export async function respondProposal(
   proposalId: UUID,

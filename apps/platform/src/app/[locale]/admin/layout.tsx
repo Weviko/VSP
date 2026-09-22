@@ -45,6 +45,7 @@ const MENU_GROUPS = [
       { key: 'events', path: '/events' },
       { key: 'payments', path: '/payments' },
       { key: 'grants', path: '/grants' },
+      { key: 'sponsors', path: '/sponsorship' },
       { key: 'content', path: '/content' },
       { key: 'polls', path: '/polls' },
     ],
