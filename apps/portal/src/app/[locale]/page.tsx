@@ -34,6 +34,8 @@ export default async function PublicHome({ params }: { params: Promise<{ locale:
 
   const featuredNews = news[0] ?? null;
   const restNews = news.slice(1, 5);
+  // 스코어 표시: "1.000" 같은 소수 꼬리 제거
+  const sc = (v: string | null | undefined) => (v == null ? '-' : String(v).replace(/\.0+$/, ''));
 
   return (
     <div className="space-y-6">
@@ -101,11 +103,11 @@ export default async function PublicHome({ params }: { params: Promise<{ locale:
                   <div className="space-y-1">
                     <div className="flex items-center justify-between gap-2">
                       <span className="truncate text-sm font-medium text-slate-900">{a?.label ?? '-'}</span>
-                      <span className={`tabular-nums text-lg font-bold ${done || live ? 'text-slate-900' : 'text-slate-300'}`}>{a?.score ?? '-'}</span>
+                      <span className={`tabular-nums text-lg font-bold ${done || live ? 'text-slate-900' : 'text-slate-300'}`}>{sc(a?.score)}</span>
                     </div>
                     <div className="flex items-center justify-between gap-2">
                       <span className="truncate text-sm font-medium text-slate-900">{b?.label ?? '-'}</span>
-                      <span className={`tabular-nums text-lg font-bold ${done || live ? 'text-slate-900' : 'text-slate-300'}`}>{b?.score ?? '-'}</span>
+                      <span className={`tabular-nums text-lg font-bold ${done || live ? 'text-slate-900' : 'text-slate-300'}`}>{sc(b?.score)}</span>
                     </div>
                   </div>
                   <div className="truncate text-xs text-slate-400">{pick(m.event_name, locale)}{m.round_name ? ` · ${m.round_name}` : ''}</div>
