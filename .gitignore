@@ -7,6 +7,7 @@ dist/
 .env.local
 .env*.local
 .env.deploy
+docs/internal/
 *.log
 .DS_Store
 Thumbs.db
