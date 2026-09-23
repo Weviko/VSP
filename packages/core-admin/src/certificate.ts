@@ -22,6 +22,7 @@ export type CertificateType =
   | 'AWARD'                // 수상 증명
   | 'COACH_QUALIFICATION'  // 지도자 국가자격증
   | 'ANTIDOPING_EDU'       // 도핑방지 교육 이수증
+  | 'ANTIDOPING_TUE'       // 치료목적 사용면책 승인서
   | 'NATIONAL_TEAM';       // 국가대표 확인서
 
 export interface Certificate {

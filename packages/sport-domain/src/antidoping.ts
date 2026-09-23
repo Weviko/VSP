@@ -277,6 +277,71 @@ export async function recordEducationCompletion(
   return recId;
 }
 
+// ── 치료목적 사용면책 (TUE) ───────────────────────────────────────────────
+
+export type TueDecision = 'PENDING' | 'APPROVED' | 'REJECTED';
+export interface TueRow {
+  id: UUID; person_id: UUID; full_name: string; sport_id: UUID | null; sport_name: I18nText | null;
+  substance: string; reason: string | null; valid_from: string | null; valid_to: string | null;
+  decision: TueDecision; verify_code: string | null; created_at: string;
+}
+export async function listTue(filter: { decision?: TueDecision | null } = {}): Promise<TueRow[]> {
+  return query<TueRow>(
+    `SELECT t.id, t.person_id, p.full_name, t.sport_id, s.name_i18n AS sport_name,
+            t.substance, t.reason, t.valid_from::text AS valid_from, t.valid_to::text AS valid_to,
+            t.decision, t.verify_code, t.created_at::text AS created_at
+       FROM antidoping.tue t
+       JOIN core.person p ON p.id = t.person_id
+       LEFT JOIN sport.sport s ON s.id = t.sport_id
+      WHERE ($1::text IS NULL OR t.decision = $1)
+      ORDER BY CASE t.decision WHEN 'PENDING' THEN 0 ELSE 1 END, t.created_at DESC`,
+    [filter.decision ?? null]
+  );
+}
+export interface SubmitTueInput {
+  personId: UUID; sportId?: UUID | null; substance: string; reason?: string | null;
+  validFrom?: string | null; validTo?: string | null;
+}
+export async function submitTue(input: SubmitTueInput, actor: Actor = {}): Promise<UUID> {
+  return tx(async (client) => {
+    const row = (await client.query<{ id: UUID }>(
+      `INSERT INTO antidoping.tue (person_id, sport_id, substance, reason, valid_from, valid_to)
+       VALUES ($1,$2,$3,$4,$5,$6) RETURNING id`,
+      [input.personId, input.sportId ?? null, input.substance, input.reason ?? null, input.validFrom ?? null, input.validTo ?? null]
+    )).rows[0];
+    await writeAudit(
+      { actorPersonId: actor.personId, actorOrgId: actor.orgId,
+        entitySchema: 'antidoping', entityTable: 'tue', entityId: row.id, action: 'SUBMIT_TUE',
+        after: { person: input.personId, substance: input.substance } }, client
+    );
+    return row.id;
+  });
+}
+/** TUE 심의 결정. 승인 시 진위확인 가능한 면책 승인서를 발급한다(별도 tx). */
+export async function decideTue(tueId: UUID, decision: 'APPROVED' | 'REJECTED', actor: Actor = {}): Promise<void> {
+  const tueRow = await tx(async (client) => {
+    await client.query(
+      `UPDATE antidoping.tue SET decision=$2, decided_by=$3, decided_at=now() WHERE id=$1`,
+      [tueId, decision, actor.personId ?? null]
+    );
+    await writeAudit(
+      { actorPersonId: actor.personId, actorOrgId: actor.orgId,
+        entitySchema: 'antidoping', entityTable: 'tue', entityId: tueId, action: 'DECIDE_TUE', after: { decision } }, client
+    );
+    return (await client.query<{ person_id: UUID }>(`SELECT person_id FROM antidoping.tue WHERE id=$1`, [tueId])).rows[0];
+  });
+  if (decision === 'APPROVED' && tueRow) {
+    try {
+      const cert = await issueCertificate(
+        { personId: tueRow.person_id, orgId: actor.orgId ?? null, certType: 'ANTIDOPING_TUE',
+          title: 'Miễn trừ sử dụng vì mục đích điều trị (TUE) · 치료목적 사용면책 승인서' },
+        actor
+      );
+      await query(`UPDATE antidoping.tue SET cert_document_id=$2, verify_code=$3 WHERE id=$1`, [tueId, cert.id, cert.verify_code]);
+    } catch { /* 발급 실패는 심의 결정을 막지 않는다 */ }
+  }
+}
+
 // ── 요약/집계 ─────────────────────────────────────────────────────────────
 export interface AntidopingOverview {
   pendingTests: number; aafCount: number; activeSanctions: number; educationRecords: number;

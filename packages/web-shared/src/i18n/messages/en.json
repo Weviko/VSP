@@ -933,7 +933,16 @@
     "ttype": { "IN_COMPETITION": "In-competition", "OUT_OF_COMPETITION": "Out-of-competition" },
     "stype": { "SUSPENSION": "Suspension", "WARNING": "Warning", "DQ": "Disqualification" },
     "sstatus": { "ACTIVE": "Active", "SERVED": "Served", "APPEALED": "Appealed", "ANNULLED": "Annulled" },
-    "result": { "NEG": "Negative", "POS": "Positive" }
+    "result": { "NEG": "Negative", "POS": "Positive" },
+    "tueTitle": "Therapeutic Use Exemption (TUE)",
+    "newTue": "Submit TUE",
+    "substance": "Substance",
+    "reasonLabel": "Reason",
+    "validity": "Validity",
+    "approve": "Approve",
+    "reject": "Reject",
+    "noTue": "No TUE applications.",
+    "tuestatus": { "PENDING": "Pending", "APPROVED": "Approved", "REJECTED": "Rejected" }
   },
   "club": {
     "title": "Sports clubs",

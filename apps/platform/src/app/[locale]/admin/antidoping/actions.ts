@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { searchPersons, t as pick, type UUID, type PersonHit } from '@vsp/core-admin';
 import {
   recordTest, recordLabResult, decideSanction, liftSanction,
-  createEducationCourse, recordEducationCompletion,
+  createEducationCourse, recordEducationCompletion, submitTue, decideTue,
   type TestType, type SampleType, type ABResult, type SanctionType,
 } from '@vsp/sport-domain';
 import { requireWorkspace } from '@/lib/session';
@@ -132,6 +132,36 @@ export async function recordCompletionForm(locale: string, formData: FormData): 
       },
       { personId: user.personId, orgId: user.activeOrgId }
     );
+  }
+  back(locale);
+}
+
+export async function submitTueForm(locale: string, formData: FormData): Promise<void> {
+  const user = await requireWorkspace(locale);
+  const personId = String(formData.get('person_id') ?? '').trim();
+  const substance = String(formData.get('substance') ?? '').trim();
+  const sportId = String(formData.get('sport_id') ?? '').trim();
+  if (personId && substance) {
+    await submitTue(
+      {
+        personId: personId as UUID,
+        sportId: sportId ? (sportId as UUID) : null,
+        substance,
+        reason: String(formData.get('reason') ?? '').trim() || null,
+        validFrom: String(formData.get('valid_from') ?? '').trim() || null,
+        validTo: String(formData.get('valid_to') ?? '').trim() || null,
+      },
+      { personId: user.personId, orgId: user.activeOrgId }
+    );
+  }
+  back(locale);
+}
+export async function decideTueForm(locale: string, formData: FormData): Promise<void> {
+  const user = await requireWorkspace(locale);
+  const tueId = String(formData.get('tue_id') ?? '').trim();
+  const decision = String(formData.get('decision') ?? '').trim();
+  if (tueId && (decision === 'APPROVED' || decision === 'REJECTED')) {
+    await decideTue(tueId as UUID, decision, { personId: user.personId, orgId: user.activeOrgId });
   }
   back(locale);
 }

@@ -15,6 +15,7 @@ process.env.STORAGE_URL ??= 'file://.storage';
 import { query, queryOne, closePool, type UUID } from '../packages/core-admin/src/index.ts';
 import {
   createEducationCourse, recordEducationCompletion, recordTest, recordLabResult, decideSanction,
+  submitTue, decideTue,
 } from '../packages/sport-domain/src/index.ts';
 
 const force = process.argv.includes('--force');
@@ -26,7 +27,7 @@ async function main() {
     await closePool();
     return;
   }
-  if (force) { await query(`DELETE FROM antidoping.sanction`); await query(`DELETE FROM antidoping.test`); await query(`DELETE FROM antidoping.education_record`); await query(`DELETE FROM antidoping.education_course`); }
+  if (force) { await query(`DELETE FROM antidoping.tue`); await query(`DELETE FROM antidoping.sanction`); await query(`DELETE FROM antidoping.test`); await query(`DELETE FROM antidoping.education_record`); await query(`DELETE FROM antidoping.education_course`); }
 
   const actorRow = await queryOne<{ person_id: UUID; org_id: UUID }>(
     `SELECT m.person_id, m.org_id FROM core.org_member m
@@ -85,10 +86,29 @@ async function main() {
     );
   }
 
+  // TUE(치료목적 사용면책): 승인 1건(→면책 승인서 발급) + 심의중 1건
+  let tueInfo = '없음';
+  if (eduAthletes[0]) {
+    const tueApproved = await submitTue(
+      { personId: eduAthletes[0].person_id, sportId: sport.sport_id, substance: 'Salbutamol (흡입)',
+        reason: '천식 치료', validFrom: '2026-09-01', validTo: '2027-08-31' }, actor
+    );
+    await decideTue(tueApproved, 'APPROVED', actor); // 면책 승인서(ANTIDOPING_TUE) 발급
+    tueInfo = '승인 1건(면책 승인서 발급)';
+  }
+  if (eduAthletes[1]) {
+    await submitTue(
+      { personId: eduAthletes[1].person_id, sportId: sport.sport_id, substance: 'Prednisolone',
+        reason: '치료 목적', validFrom: '2026-10-01', validTo: '2027-03-31' }, actor
+    ); // 심의중(PENDING)
+    tueInfo += ' + 심의중 1건';
+  }
+
   console.log('도핑방지 데모 생성.');
   console.log(`  · 교육 과정 1개 + 이수 ${eduAthletes.length}명(eligibility.antidoping 채움)`);
   console.log('  · 검사 2건(음성 1, 양성 AAF 1)');
   if (target) console.log(`  · AAF 제재: ${target.full_name} → 자격정지(공개) → 등록 SUSPENDED(출전 자동 차단)`);
+  console.log(`  · TUE(치료목적 사용면책): ${tueInfo}`);
   await closePool();
 }
 

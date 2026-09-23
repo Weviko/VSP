@@ -933,7 +933,16 @@
     "ttype": { "IN_COMPETITION": "Trong giải", "OUT_OF_COMPETITION": "Ngoài giải" },
     "stype": { "SUSPENSION": "Đình chỉ tư cách", "WARNING": "Cảnh cáo", "DQ": "Loại" },
     "sstatus": { "ACTIVE": "Đang áp dụng", "SERVED": "Đã xong", "APPEALED": "Khiếu nại", "ANNULLED": "Hủy" },
-    "result": { "NEG": "Âm tính", "POS": "Dương tính" }
+    "result": { "NEG": "Âm tính", "POS": "Dương tính" },
+    "tueTitle": "Miễn trừ điều trị (TUE)",
+    "newTue": "Nộp TUE",
+    "substance": "Chất",
+    "reasonLabel": "Lý do",
+    "validity": "Hiệu lực",
+    "approve": "Duyệt",
+    "reject": "Từ chối",
+    "noTue": "Chưa có hồ sơ TUE.",
+    "tuestatus": { "PENDING": "Đang xét", "APPROVED": "Đã duyệt", "REJECTED": "Từ chối" }
   },
   "club": {
     "title": "Câu lạc bộ thể thao",

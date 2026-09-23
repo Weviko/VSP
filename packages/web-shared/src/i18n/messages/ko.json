@@ -933,7 +933,16 @@
     "ttype": { "IN_COMPETITION": "경기기간", "OUT_OF_COMPETITION": "경기외" },
     "stype": { "SUSPENSION": "자격정지", "WARNING": "경고", "DQ": "실격" },
     "sstatus": { "ACTIVE": "집행중", "SERVED": "종료", "APPEALED": "이의", "ANNULLED": "취소" },
-    "result": { "NEG": "음성", "POS": "양성" }
+    "result": { "NEG": "음성", "POS": "양성" },
+    "tueTitle": "치료목적 사용면책(TUE)",
+    "newTue": "TUE 신청",
+    "substance": "약물",
+    "reasonLabel": "사유",
+    "validity": "유효기간",
+    "approve": "승인",
+    "reject": "반려",
+    "noTue": "TUE 신청이 없습니다.",
+    "tuestatus": { "PENDING": "심의중", "APPROVED": "승인", "REJECTED": "반려" }
   },
   "club": {
     "title": "생활체육 클럽",

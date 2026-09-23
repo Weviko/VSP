@@ -114,6 +114,7 @@ const CONTRACT: Array<[string, string[]]> = [
   ['adop.stype', ['SUSPENSION', 'WARNING', 'DQ']],
   ['adop.sstatus', ['ACTIVE', 'SERVED', 'APPEALED', 'ANNULLED']],
   ['adop.result', ['NEG', 'POS']],
+  ['adop.tuestatus', ['PENDING', 'APPROVED', 'REJECTED']],
   // 생활체육 클럽: 유형·상태·역할·프로그램대상·프로그램상태를 t(`club.*.${x}`) 로 렌더
   ['club.ctype', ['COMMUNITY', 'PUBLIC', 'DESIGNATED']],
   ['club.cstatus', ['DRAFT', 'SUBMITTED', 'APPROVED', 'REJECTED', 'SUSPENDED', 'CLOSED']],

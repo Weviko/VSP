@@ -1,6 +1,6 @@
 import { t as pick } from '@vsp/core-admin';
 import {
-  getAntidopingOverview, listTests, listSanctions, listEducationCourses, listSports,
+  getAntidopingOverview, listTests, listSanctions, listEducationCourses, listTue, listSports,
   type TestType, type SampleType, type SanctionType,
 } from '@vsp/sport-domain';
 import { isLocale, type Locale } from '@vsp/web-shared/i18n/config';
@@ -10,7 +10,7 @@ import { requireWorkspace } from '@/lib/session';
 import { PersonPicker } from '@/components/PersonPicker';
 import {
   recordTestForm, labResultForm, decideSanctionForm, liftSanctionForm,
-  createCourseForm, recordCompletionForm, searchPersonsAction,
+  createCourseForm, recordCompletionForm, submitTueForm, decideTueForm, searchPersonsAction,
 } from './actions';
 
 export const dynamic = 'force-dynamic';
@@ -27,11 +27,12 @@ export default async function AntidopingPage({ params }: { params: Promise<{ loc
   await requireWorkspace(locale);
   const t = getMessages(locale);
 
-  const [ov, tests, sanctions, courses, sports] = await Promise.all([
+  const [ov, tests, sanctions, courses, tues, sports] = await Promise.all([
     getAntidopingOverview().catch(() => ({ pendingTests: 0, aafCount: 0, activeSanctions: 0, educationRecords: 0 })),
     listTests({}).catch(() => []),
     listSanctions({}).catch(() => []),
     listEducationCourses().catch(() => []),
+    listTue({}).catch(() => []),
     listSports({ onlyActive: true }).catch(() => []),
   ]);
   const pl = { search: t('picker.search'), noResults: t('picker.noResults'), minChars: t('picker.minChars'), change: t('picker.change') };
@@ -211,6 +212,67 @@ export default async function AntidopingPage({ params }: { params: Promise<{ loc
             ))}
           </Table>
         ) : null}
+      </section>
+
+      {/* 치료목적 사용면책 (TUE) */}
+      <section className="space-y-3">
+        <h2 className="text-lg font-semibold text-slate-900">{t('adop.tueTitle')}</h2>
+        <Card>
+          <form action={submitTueForm.bind(null, locale)} className="space-y-2">
+            <p className="text-sm font-semibold text-slate-800">{t('adop.newTue')}</p>
+            <div className="grid gap-2 sm:grid-cols-4 sm:items-end">
+              <div className="text-sm sm:col-span-2">
+                <span className="mb-1 block text-slate-600">{t('adop.person')}</span>
+                <PersonPicker name="person_id" required onSearch={searchPersonsAction.bind(null, locale)} labels={pl} />
+              </div>
+              <input name="substance" required placeholder={t('adop.substance')} className={input} />
+              {sportOptions('sport_id')}
+            </div>
+            <input name="reason" placeholder={t('adop.reasonLabel')} className={input} />
+            <div className="flex items-end gap-2">
+              <label className="text-sm text-slate-600">{t('adop.validity')}
+                <div className="mt-1 flex gap-2">
+                  <input type="date" name="valid_from" className={input} />
+                  <input type="date" name="valid_to" className={input} />
+                </div>
+              </label>
+              <button className="ml-auto rounded bg-slate-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-slate-700">{t('adop.newTue')}</button>
+            </div>
+          </form>
+        </Card>
+        {tues.length === 0 ? (
+          <EmptyState message={t('adop.noTue')} />
+        ) : (
+          <Table head={[t('adop.person'), t('adop.substance'), t('adop.validity'), t('adop.statusLabel'), '']}>
+            {tues.map((tue) => (
+              <Tr key={tue.id}>
+                <Td className="font-medium text-slate-900 wrap-anywhere">
+                  {tue.full_name}
+                  {tue.verify_code ? <span className="ml-1.5 font-mono text-[11px] text-slate-400">{tue.verify_code}</span> : null}
+                </Td>
+                <Td className="text-slate-700 wrap-anywhere">{tue.substance}</Td>
+                <Td className="tabular-nums text-slate-500">{tue.valid_from?.slice(0, 10) ?? '—'}{tue.valid_to ? ` ~ ${tue.valid_to.slice(0, 10)}` : ''}</Td>
+                <Td><Badge tone={tue.decision === 'APPROVED' ? 'green' : tue.decision === 'REJECTED' ? 'red' : 'amber'}>{t(`adop.tuestatus.${tue.decision}`)}</Badge></Td>
+                <Td>
+                  {tue.decision === 'PENDING' ? (
+                    <div className="flex gap-1">
+                      <form action={decideTueForm.bind(null, locale)}>
+                        <input type="hidden" name="tue_id" value={tue.id} />
+                        <input type="hidden" name="decision" value="APPROVED" />
+                        <button className="rounded border border-emerald-200 px-2 py-1 text-xs text-emerald-700 hover:bg-emerald-50">{t('adop.approve')}</button>
+                      </form>
+                      <form action={decideTueForm.bind(null, locale)}>
+                        <input type="hidden" name="tue_id" value={tue.id} />
+                        <input type="hidden" name="decision" value="REJECTED" />
+                        <button className="rounded border border-red-200 px-2 py-1 text-xs text-red-700 hover:bg-red-50">{t('adop.reject')}</button>
+                      </form>
+                    </div>
+                  ) : null}
+                </Td>
+              </Tr>
+            ))}
+          </Table>
+        )}
       </section>
     </div>
   );
