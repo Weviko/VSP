@@ -6,5 +6,6 @@ export * from './national-team';
 export * from './antidoping';
 export * from './club';
 export * from './coaching';
+export * from './match-ops';
 export * from './athlete-search';
 export * from './stats';

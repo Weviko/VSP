@@ -1230,3 +1230,14 @@ export async function listPublicCoachQualifications(limit = 100): Promise<Public
     [Math.min(Math.max(limit, 1), 300)]
   );
 }
+
+// ── 경기 심판 (공개) ──────────────────────────────────────────────────────
+export interface PublicMatchOfficial { full_name: string; name_latin: string | null; role: string; }
+export async function getMatchOfficials(matchId: string): Promise<PublicMatchOfficial[]> {
+  if (!isUuid(matchId)) return [];
+  return query<PublicMatchOfficial>(
+    `SELECT full_name, name_latin, role FROM pub.match_official WHERE match_id = $1
+      ORDER BY CASE role WHEN 'CHIEF_REFEREE' THEN 0 WHEN 'REFEREE' THEN 1 ELSE 2 END, full_name`,
+    [matchId]
+  );
+}

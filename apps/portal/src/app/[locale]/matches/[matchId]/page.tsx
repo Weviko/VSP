@@ -1,9 +1,9 @@
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import {
-  getMatch, getMatchRoster, listMatchRelay, listNews, listVideos, listOpenPolls, cheerCount, formatScore, t as pick,
+  getMatch, getMatchRoster, getMatchOfficials, listMatchRelay, listNews, listVideos, listOpenPolls, cheerCount, formatScore, t as pick,
   type BoxScore, type PublicMatchDetail, type RelayItem, type NewsItem, type VideoItem, type PollPublic,
-  type MatchRosterPlayer,
+  type MatchRosterPlayer, type PublicMatchOfficial,
 } from '@vsp/public-data';
 import { isLocale, type Locale } from '@vsp/web-shared/i18n/config';
 import { getMessages } from '@vsp/web-shared/i18n';
@@ -51,13 +51,14 @@ export default async function MatchDetail({
   const tab: Tab = TABS.includes(tabRaw as Tab) ? (tabRaw as Tab) : 'record';
 
   // 활성 탭의 콘텐츠만 조회한다 (서버 렌더, 필요한 것만).
-  const [relay, news, videos, polls, cheers, roster] = await Promise.all([
+  const [relay, news, videos, polls, cheers, roster, officials] = await Promise.all([
     tab === 'relay' ? listMatchRelay(m.id).catch(() => []) : Promise.resolve([] as RelayItem[]),
     tab === 'news' ? listNews({ eventId: m.event_id, limit: 20 }).catch(() => []) : Promise.resolve([] as NewsItem[]),
     tab === 'video' ? listVideos({ matchId: m.id, limit: 12 }).catch(() => []) : Promise.resolve([] as VideoItem[]),
     tab === 'cheer' ? listOpenPolls({ eventId: m.event_id }).catch(() => []) : Promise.resolve([] as PollPublic[]),
     tab === 'cheer' ? cheerCount('EVENT', m.event_id).catch(() => 0) : Promise.resolve(0),
     tab === 'lineup' ? getMatchRoster(m.id).catch(() => []) : Promise.resolve([] as MatchRosterPlayer[]),
+    tab === 'record' ? getMatchOfficials(m.id).catch(() => []) : Promise.resolve([] as PublicMatchOfficial[]),
   ]);
   const platformUrl = process.env.VSP_PLATFORM_URL ?? 'http://localhost:3001';
   const a = m.sides.find((s) => s.side && ['A', 'HOME'].includes(s.side)) ?? m.sides[0];
@@ -106,7 +107,23 @@ export default async function MatchDetail({
         ))}
       </nav>
 
-      {tab === 'record' ? <RecordTab box={m.box_score} sides={m.sides} t={t} /> : null}
+      {tab === 'record' ? (
+        <div className="space-y-4">
+          <RecordTab box={m.box_score} sides={m.sides} t={t} />
+          {officials.length > 0 ? (
+            <div className="rounded-lg border border-slate-200 bg-white p-4">
+              <p className="mb-2 text-sm font-semibold text-slate-700">{t('ops.publicOfficials')}</p>
+              <ul className="flex flex-wrap gap-2 text-sm">
+                {officials.map((o, i) => (
+                  <li key={i} className="rounded-full border border-slate-200 px-2.5 py-1 text-slate-700">
+                    {o.full_name} <span className="text-xs text-slate-400">{t(`ops.role.${o.role}`)}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ) : null}
+        </div>
+      ) : null}
       {tab === 'lineup' ? <LineupTab sides={m.sides} roster={roster} locale={locale} t={t} /> : null}
       {tab === 'relay' ? <RelayTab items={relay} locale={locale} t={t} /> : null}
       {tab === 'news' ? <NewsTab items={news} locale={locale} t={t} /> : null}

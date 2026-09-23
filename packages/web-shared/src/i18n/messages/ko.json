@@ -117,7 +117,8 @@
     "nationalTeams": "국가대표",
     "antidoping": "도핑방지",
     "clubs": "생활체육 클럽",
-    "coaching": "지도자 자격"
+    "coaching": "지도자 자격",
+    "competitions": "대회 운영"
   },
   "org": {
     "title": "조직 관리",
@@ -1023,5 +1024,34 @@
     "cstatus": { "DRAFT": "준비", "OPEN": "모집중", "CLOSED": "마감", "FINISHED": "종료" },
     "estatus": { "ENROLLED": "수강", "COMPLETED": "이수", "FAILED": "미이수", "CANCELLED": "취소" },
     "credstatus": { "VALID": "유효", "EXPIRED": "만료", "SUSPENDED": "정지", "REVOKED": "무효" }
+  },
+  "ops": {
+    "title": "대회 운영",
+    "matches": "경기",
+    "match": "경기",
+    "officials": "심판·임원",
+    "assignOfficial": "심판 배정",
+    "referee": "심판",
+    "conflict": "시간 충돌",
+    "liveConsole": "실시간 기록 콘솔",
+    "events": "기록",
+    "addEvent": "기록 추가",
+    "finalize": "종료 확정",
+    "setLive": "경기 시작",
+    "side": "편",
+    "points": "점수",
+    "period": "피리어드",
+    "note": "메모",
+    "running": "현재 스코어",
+    "noMatches": "경기가 없습니다.",
+    "noOfficials": "배정된 심판이 없습니다.",
+    "noEvents": "기록이 없습니다.",
+    "empty": "데이터가 없습니다.",
+    "remove": "해제",
+    "publicOfficials": "심판진",
+    "role": { "CHIEF_REFEREE": "주심", "REFEREE": "심판", "JUDGE": "채점위원", "SCORER": "기록원", "TIMEKEEPER": "계시원", "COMMISSIONER": "경기감독관" },
+    "ostatus": { "ASSIGNED": "배정", "CONFIRMED": "확정", "DECLINED": "거절", "REPLACED": "교체" },
+    "kind": { "SCORE": "득점", "FOUL": "반칙", "SUB": "교체", "PERIOD_START": "피리어드 시작", "PERIOD_END": "피리어드 종료", "TIMEOUT": "타임아웃", "CARD": "카드", "NOTE": "메모" },
+    "mstatus": { "SCHEDULED": "예정", "LIVE": "진행중", "FINISHED": "종료", "CANCELLED": "취소" }
   }
 }

@@ -117,7 +117,8 @@
     "nationalTeams": "National teams",
     "antidoping": "Anti-doping",
     "clubs": "Sports clubs",
-    "coaching": "Coaching"
+    "coaching": "Coaching",
+    "competitions": "Competition ops"
   },
   "org": {
     "title": "Organizations",
@@ -1023,5 +1024,34 @@
     "cstatus": { "DRAFT": "Draft", "OPEN": "Open", "CLOSED": "Closed", "FINISHED": "Finished" },
     "estatus": { "ENROLLED": "Enrolled", "COMPLETED": "Completed", "FAILED": "Failed", "CANCELLED": "Cancelled" },
     "credstatus": { "VALID": "Valid", "EXPIRED": "Expired", "SUSPENDED": "Suspended", "REVOKED": "Revoked" }
+  },
+  "ops": {
+    "title": "Competition ops",
+    "matches": "Matches",
+    "match": "Match",
+    "officials": "Officials",
+    "assignOfficial": "Assign official",
+    "referee": "Referee",
+    "conflict": "Time conflict",
+    "liveConsole": "Live scoring console",
+    "events": "Events",
+    "addEvent": "Add event",
+    "finalize": "Finalize match",
+    "setLive": "Start match",
+    "side": "Side",
+    "points": "Points",
+    "period": "Period",
+    "note": "Note",
+    "running": "Live score",
+    "noMatches": "No matches.",
+    "noOfficials": "No officials assigned.",
+    "noEvents": "No events.",
+    "empty": "No data.",
+    "remove": "Remove",
+    "publicOfficials": "Officials",
+    "role": { "CHIEF_REFEREE": "Chief referee", "REFEREE": "Referee", "JUDGE": "Judge", "SCORER": "Scorer", "TIMEKEEPER": "Timekeeper", "COMMISSIONER": "Commissioner" },
+    "ostatus": { "ASSIGNED": "Assigned", "CONFIRMED": "Confirmed", "DECLINED": "Declined", "REPLACED": "Replaced" },
+    "kind": { "SCORE": "Score", "FOUL": "Foul", "SUB": "Sub", "PERIOD_START": "Period start", "PERIOD_END": "Period end", "TIMEOUT": "Timeout", "CARD": "Card", "NOTE": "Note" },
+    "mstatus": { "SCHEDULED": "Scheduled", "LIVE": "Live", "FINISHED": "Finished", "CANCELLED": "Cancelled" }
   }
 }

@@ -125,10 +125,15 @@ const CONTRACT: Array<[string, string[]]> = [
   ['coach.cstatus', ['DRAFT', 'OPEN', 'CLOSED', 'FINISHED']],
   ['coach.estatus', ['ENROLLED', 'COMPLETED', 'FAILED', 'CANCELLED']],
   ['coach.credstatus', ['VALID', 'EXPIRED', 'SUSPENDED', 'REVOKED']],
+  // 대회 운영: 심판역할·배정상태·이벤트종류·경기상태를 t(`ops.*.${x}`) 로 렌더
+  ['ops.role', ['CHIEF_REFEREE', 'REFEREE', 'JUDGE', 'SCORER', 'TIMEKEEPER', 'COMMISSIONER']],
+  ['ops.ostatus', ['ASSIGNED', 'CONFIRMED', 'DECLINED', 'REPLACED']],
+  ['ops.kind', ['SCORE', 'FOUL', 'SUB', 'PERIOD_START', 'PERIOD_END', 'TIMEOUT', 'CARD', 'NOTE']],
+  ['ops.mstatus', ['SCHEDULED', 'LIVE', 'FINISHED', 'CANCELLED']],
   // 업무 좌측 메뉴는 t(`nav.${key}`) 로 렌더된다
   ['nav', ['dashboard', 'ingest', 'approvals', 'organizations', 'people', 'registrations', 'seasons', 'import',
     'certificates', 'events', 'payments', 'grants', 'sponsors', 'content', 'polls', 'ads', 'users', 'integrity',
-    'nationalTeams', 'antidoping', 'clubs', 'coaching', 'documents', 'notifications', 'audit', 'reports', 'settings']],
+    'nationalTeams', 'antidoping', 'clubs', 'coaching', 'competitions', 'documents', 'notifications', 'audit', 'reports', 'settings']],
 ];
 for (const [prefix, values] of CONTRACT) {
   const miss = values.filter((v) => !koKeys.has(`${prefix}.${v}`));

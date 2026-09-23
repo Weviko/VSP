@@ -117,7 +117,8 @@
     "nationalTeams": "Đội tuyển quốc gia",
     "antidoping": "Phòng chống doping",
     "clubs": "Câu lạc bộ thể thao",
-    "coaching": "Chứng nhận HLV"
+    "coaching": "Chứng nhận HLV",
+    "competitions": "Điều hành giải"
   },
   "org": {
     "title": "Quản lý tổ chức",
@@ -1023,5 +1024,34 @@
     "cstatus": { "DRAFT": "Chuẩn bị", "OPEN": "Đang tuyển", "CLOSED": "Đã đóng", "FINISHED": "Kết thúc" },
     "estatus": { "ENROLLED": "Đang học", "COMPLETED": "Hoàn thành", "FAILED": "Không đạt", "CANCELLED": "Hủy" },
     "credstatus": { "VALID": "Hiệu lực", "EXPIRED": "Hết hạn", "SUSPENDED": "Đình chỉ", "REVOKED": "Thu hồi" }
+  },
+  "ops": {
+    "title": "Điều hành giải",
+    "matches": "Trận đấu",
+    "match": "Trận",
+    "officials": "Trọng tài",
+    "assignOfficial": "Phân công trọng tài",
+    "referee": "Trọng tài",
+    "conflict": "Trùng giờ",
+    "liveConsole": "Bảng ghi trực tiếp",
+    "events": "Diễn biến",
+    "addEvent": "Thêm diễn biến",
+    "finalize": "Kết thúc trận",
+    "setLive": "Bắt đầu trận",
+    "side": "Bên",
+    "points": "Điểm",
+    "period": "Hiệp",
+    "note": "Ghi chú",
+    "running": "Tỉ số hiện tại",
+    "noMatches": "Chưa có trận.",
+    "noOfficials": "Chưa phân công trọng tài.",
+    "noEvents": "Chưa có diễn biến.",
+    "empty": "Không có dữ liệu.",
+    "remove": "Gỡ",
+    "publicOfficials": "Tổ trọng tài",
+    "role": { "CHIEF_REFEREE": "Trọng tài chính", "REFEREE": "Trọng tài", "JUDGE": "Giám định", "SCORER": "Thư ký", "TIMEKEEPER": "Bấm giờ", "COMMISSIONER": "Giám sát" },
+    "ostatus": { "ASSIGNED": "Đã phân", "CONFIRMED": "Xác nhận", "DECLINED": "Từ chối", "REPLACED": "Thay" },
+    "kind": { "SCORE": "Ghi điểm", "FOUL": "Phạm lỗi", "SUB": "Thay người", "PERIOD_START": "Bắt đầu hiệp", "PERIOD_END": "Hết hiệp", "TIMEOUT": "Hội ý", "CARD": "Thẻ", "NOTE": "Ghi chú" },
+    "mstatus": { "SCHEDULED": "Sắp diễn ra", "LIVE": "Đang diễn ra", "FINISHED": "Kết thúc", "CANCELLED": "Hủy" }
   }
 }
