@@ -1206,3 +1206,27 @@ export interface ClubRegionStat { region_code: string | null; clubs: number; mem
 export async function getClubStatsByRegion(): Promise<ClubRegionStat[]> {
   return query<ClubRegionStat>(`SELECT region_code, clubs, members, programs FROM pub.stat_club_by_region ORDER BY clubs DESC, region_code`);
 }
+
+// ── 지도자 자격 (공개) ────────────────────────────────────────────────────
+// pub.coach_qualification 만 조회(공개 지도자의 유효 자격). PII 없음.
+
+export interface PublicCoachQualification {
+  person_id: UUID; full_name: string; name_latin: string | null;
+  grade_name: I18nText; level_order: number; sport_code: string | null; sport_name: I18nText | null;
+  obtained_year: number | null; expires_year: number | null;
+}
+export async function listCoachQualifications(personId: string): Promise<PublicCoachQualification[]> {
+  if (!isUuid(personId)) return [];
+  return query<PublicCoachQualification>(
+    `SELECT person_id, full_name, name_latin, grade_name, level_order, sport_code, sport_name, obtained_year, expires_year
+       FROM pub.coach_qualification WHERE person_id = $1 ORDER BY level_order DESC`,
+    [personId]
+  );
+}
+export async function listPublicCoachQualifications(limit = 100): Promise<PublicCoachQualification[]> {
+  return query<PublicCoachQualification>(
+    `SELECT person_id, full_name, name_latin, grade_name, level_order, sport_code, sport_name, obtained_year, expires_year
+       FROM pub.coach_qualification ORDER BY level_order DESC, full_name LIMIT $1`,
+    [Math.min(Math.max(limit, 1), 300)]
+  );
+}

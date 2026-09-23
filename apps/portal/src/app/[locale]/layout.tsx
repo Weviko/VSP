@@ -99,6 +99,7 @@ export default async function PortalLayout({
             { key: 'verify', href: `${base}/verify`, label: t('nav.verify') },
             { key: 'integrity', href: `${base}/integrity`, label: t('nav.integrity') },
             { key: 'antidoping', href: `${base}/antidoping`, label: t('nav.antidoping') },
+            { key: 'coaches', href: `${base}/coaches`, label: t('coach.qualified') },
           ]}
         >
           {children}

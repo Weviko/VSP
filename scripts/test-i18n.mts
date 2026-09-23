@@ -120,10 +120,15 @@ const CONTRACT: Array<[string, string[]]> = [
   ['club.role', ['MEMBER', 'LEADER', 'INSTRUCTOR']],
   ['club.pcat', ['YOUTH', 'ADULT', 'SENIOR', 'PARA', 'ALL']],
   ['club.pstatus', ['DRAFT', 'OPEN', 'CLOSED', 'FINISHED']],
+  // 지도자 자격: 과정유형·과정상태·수강상태·자격상태를 t(`coach.*.${x}`) 로 렌더
+  ['coach.ctype', ['QUALIFICATION', 'REFRESHER']],
+  ['coach.cstatus', ['DRAFT', 'OPEN', 'CLOSED', 'FINISHED']],
+  ['coach.estatus', ['ENROLLED', 'COMPLETED', 'FAILED', 'CANCELLED']],
+  ['coach.credstatus', ['VALID', 'EXPIRED', 'SUSPENDED', 'REVOKED']],
   // 업무 좌측 메뉴는 t(`nav.${key}`) 로 렌더된다
   ['nav', ['dashboard', 'ingest', 'approvals', 'organizations', 'people', 'registrations', 'seasons', 'import',
     'certificates', 'events', 'payments', 'grants', 'sponsors', 'content', 'polls', 'ads', 'users', 'integrity',
-    'nationalTeams', 'antidoping', 'clubs', 'documents', 'notifications', 'audit', 'reports', 'settings']],
+    'nationalTeams', 'antidoping', 'clubs', 'coaching', 'documents', 'notifications', 'audit', 'reports', 'settings']],
 ];
 for (const [prefix, values] of CONTRACT) {
   const miss = values.filter((v) => !koKeys.has(`${prefix}.${v}`));
