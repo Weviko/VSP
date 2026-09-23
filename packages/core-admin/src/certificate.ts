@@ -15,11 +15,14 @@ import type { UUID } from './types';
 import type { I18nText } from './i18n';
 
 export type CertificateType =
-  | 'ATHLETE_REG'      // 선수 등록 증명
-  | 'COACH_REG'        // 지도자 등록 증명
-  | 'REFEREE_REG'      // 심판 등록 증명
-  | 'CAREER'           // 경력 증명
-  | 'AWARD';           // 수상 증명
+  | 'ATHLETE_REG'          // 선수 등록 증명
+  | 'COACH_REG'            // 지도자 등록 증명
+  | 'REFEREE_REG'          // 심판 등록 증명
+  | 'CAREER'               // 경력 증명
+  | 'AWARD'                // 수상 증명
+  | 'COACH_QUALIFICATION'  // 지도자 국가자격증
+  | 'ANTIDOPING_EDU'       // 도핑방지 교육 이수증
+  | 'NATIONAL_TEAM';       // 국가대표 확인서
 
 export interface Certificate {
   id: UUID;
@@ -62,7 +65,7 @@ function makeDocNo(prefix: string): string {
 
 export interface IssueCertificateInput {
   personId: UUID;
-  orgId: UUID;
+  orgId: UUID | null;
   certType: CertificateType;
   title: string;
   body?: string | null;

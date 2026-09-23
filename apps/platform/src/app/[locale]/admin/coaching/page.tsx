@@ -170,7 +170,10 @@ export default async function CoachingPage({
               const isExpiring = expiring.some((e) => e.id === cr.id);
               return (
                 <Tr key={cr.id}>
-                  <Td className="font-medium text-slate-900 wrap-anywhere">{cr.full_name}</Td>
+                  <Td className="font-medium text-slate-900 wrap-anywhere">
+                    {cr.full_name}
+                    {cr.verify_code ? <span className="ml-1.5 font-mono text-[11px] text-slate-400" title={t('coach.verifyCode')}>{cr.verify_code}</span> : null}
+                  </Td>
                   <Td className="text-slate-700">{pick(cr.grade_name, locale)}</Td>
                   <Td className="text-slate-600">{cr.sport_name ? pick(cr.sport_name, locale) : '—'}</Td>
                   <Td className="tabular-nums text-slate-500">{cr.obtained_on?.slice(0, 10)}</Td>

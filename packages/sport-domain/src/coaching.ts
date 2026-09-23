@@ -5,8 +5,7 @@
  * 보수교육(REFRESHER) 이수시간을 채우면 자격을 갱신한다(만료 연장).
  * 기존 지도자 등록(sport.registration reg_type='COACH')의 갭(등급·유효기간·갱신)을 메운다.
  */
-import { randomInt } from 'node:crypto';
-import { query, queryOne, tx, writeAudit, type UUID, type I18nText } from '@vsp/core-admin';
+import { query, queryOne, tx, writeAudit, issueCertificate, type UUID, type I18nText } from '@vsp/core-admin';
 
 export type GradeStatus = 'ACTIVE' | 'ARCHIVED';
 export type CourseType = 'QUALIFICATION' | 'REFRESHER';
@@ -15,13 +14,6 @@ export type EnrollmentStatus = 'ENROLLED' | 'COMPLETED' | 'FAILED' | 'CANCELLED'
 export type CoachCredentialStatus = 'VALID' | 'EXPIRED' | 'SUSPENDED' | 'REVOKED';
 
 type Actor = { personId?: UUID | null; orgId?: UUID | null };
-
-const CODE_ALPHABET = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-function makeVerifyCode(): string {
-  let s = 'C-';
-  for (let i = 0; i < 8; i++) s += CODE_ALPHABET[randomInt(CODE_ALPHABET.length)];
-  return s;
-}
 
 // ── 등급 ──────────────────────────────────────────────────────────────────
 
@@ -225,16 +217,17 @@ export async function listExpiringCredentials(withinDays = 90): Promise<CoachCre
 
 export interface GrantCredentialInput { personId: UUID; gradeId: UUID; sportId?: UUID | null; obtainedOn?: string | null; }
 export async function grantCredential(input: GrantCredentialInput, actor: Actor = {}): Promise<UUID> {
-  const grade = await queryOne<{ validity_years: number }>(`SELECT validity_years FROM coach.grade WHERE id=$1`, [input.gradeId]);
-  const verifyCode = makeVerifyCode();
-  return tx(async (client) => {
+  const grade = await queryOne<{ validity_years: number; name_i18n: I18nText }>(
+    `SELECT validity_years, name_i18n FROM coach.grade WHERE id=$1`, [input.gradeId]
+  );
+  const credId = await tx(async (client) => {
     const row = (await client.query<{ id: UUID }>(
-      `INSERT INTO coach.credential (person_id, grade_id, sport_id, obtained_on, expires_on, status, verify_code)
+      `INSERT INTO coach.credential (person_id, grade_id, sport_id, obtained_on, expires_on, status)
        VALUES ($1,$2,$3, COALESCE($4::date, CURRENT_DATE),
-               COALESCE($4::date, CURRENT_DATE) + ($5 || ' years')::interval, 'VALID', $6)
+               COALESCE($4::date, CURRENT_DATE) + ($5 || ' years')::interval, 'VALID')
        RETURNING id`,
       [input.personId, input.gradeId, input.sportId ?? null, input.obtainedOn ?? null,
-       String(grade?.validity_years ?? 4), verifyCode]
+       String(grade?.validity_years ?? 4)]
     )).rows[0];
     await writeAudit(
       { actorPersonId: actor.personId, actorOrgId: actor.orgId,
@@ -243,6 +236,17 @@ export async function grantCredential(input: GrantCredentialInput, actor: Actor 
     );
     return row.id;
   });
+  // 증명서 발급(진위확인 코드 부여) — 별도 트랜잭션(중첩 방지). 실패해도 자격 자체는 유지.
+  try {
+    const gradeName = grade?.name_i18n?.vi ?? grade?.name_i18n?.en ?? '지도자 자격';
+    const cert = await issueCertificate(
+      { personId: input.personId, orgId: actor.orgId ?? null, certType: 'COACH_QUALIFICATION',
+        title: `Chứng nhận HLV · 지도자 자격증 (${gradeName})` },
+      actor
+    );
+    await query(`UPDATE coach.credential SET cert_document_id=$2, verify_code=$3 WHERE id=$1`, [credId, cert.id, cert.verify_code]);
+  } catch { /* 증명서 발급 실패는 자격 부여를 막지 않는다 */ }
+  return credId;
 }
 
 export class RefresherHoursError extends Error {

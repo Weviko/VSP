@@ -6,7 +6,7 @@
  * 정지(SUSPENDED)된 선수는 checkEligibility 가 not_suspended=false 로 걸러 자동으로 부적격이 된다
  * (공정·윤리 신고의 징계 → 등록 SUSPENDED → 여기 반영, 모듈 간 일관성).
  */
-import { query, queryOne, tx, writeAudit, type UUID, type I18nText } from '@vsp/core-admin';
+import { query, queryOne, tx, writeAudit, issueCertificate, type UUID, type I18nText } from '@vsp/core-admin';
 import { checkEligibility, type EligibilityResult } from './registration';
 
 export type Gender = 'M' | 'F' | 'MIXED';
@@ -315,6 +315,23 @@ export async function finalizeSquad(callupId: UUID, actor: Actor = {}): Promise<
       client
     );
   });
+
+  // 국가대표 확인서 발급(진위확인 코드) — 확정 선수 중 아직 미발급자에게. 별도 트랜잭션.
+  const toCertify = await query<{ id: UUID; person_id: UUID }>(
+    `SELECT id, person_id FROM sport.nt_member
+      WHERE callup_id=$1 AND member_status='CONFIRMED' AND squad_role IN ('ATHLETE','RESERVE') AND cert_document_id IS NULL`,
+    [callupId]
+  );
+  for (const m of toCertify) {
+    try {
+      const cert = await issueCertificate(
+        { personId: m.person_id, orgId: actor.orgId ?? null, certType: 'NATIONAL_TEAM',
+          title: 'Xác nhận đội tuyển quốc gia · 국가대표 확인서' },
+        actor
+      );
+      await query(`UPDATE sport.nt_member SET cert_document_id=$2, verify_code=$3 WHERE id=$1`, [m.id, cert.id, cert.verify_code]);
+    } catch { /* 발급 실패는 확정을 막지 않는다 */ }
+  }
 }
 
 // ── 개인 이력 (/my · 선수 프로필용) ──────────────────────────────────────

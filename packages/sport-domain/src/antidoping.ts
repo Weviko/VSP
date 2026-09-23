@@ -9,7 +9,7 @@
  * 시료코드는 해시만 저장한다(재식별 방지).
  */
 import { createHash } from 'node:crypto';
-import { query, queryOne, tx, writeAudit, type UUID, type I18nText } from '@vsp/core-admin';
+import { query, queryOne, tx, writeAudit, issueCertificate, type UUID, type I18nText } from '@vsp/core-admin';
 
 export type TestType = 'IN_COMPETITION' | 'OUT_OF_COMPETITION';
 export type SampleType = 'URINE' | 'BLOOD';
@@ -234,7 +234,7 @@ export async function recordEducationCompletion(
       ))?.id ?? null
     : null;
 
-  return tx(async (client) => {
+  const recId = await tx(async (client) => {
     const res = await client.query<{ id: UUID; completed_on: string }>(
       `INSERT INTO antidoping.education_record (course_id, person_id, registration_id, completed_on, expires_on, score)
        VALUES ($1,$2,$3, COALESCE($4::date, CURRENT_DATE),
@@ -263,6 +263,18 @@ export async function recordEducationCompletion(
     );
     return rec.id;
   });
+  // 이수증 발급(진위확인 코드) — 별도 트랜잭션. 실패해도 이수 기록은 유지.
+  if (recId) {
+    try {
+      const cert = await issueCertificate(
+        { personId: input.personId, orgId: actor.orgId ?? null, certType: 'ANTIDOPING_EDU',
+          title: 'Chứng nhận tập huấn phòng chống doping · 도핑방지 교육 이수증' },
+        actor
+      );
+      await query(`UPDATE antidoping.education_record SET cert_document_id=$2, verify_code=$3 WHERE id=$1`, [recId, cert.id, cert.verify_code]);
+    } catch { /* 발급 실패는 이수를 막지 않는다 */ }
+  }
+  return recId;
 }
 
 // ── 요약/집계 ─────────────────────────────────────────────────────────────
