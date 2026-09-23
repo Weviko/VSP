@@ -108,10 +108,16 @@ const CONTRACT: Array<[string, string[]]> = [
   ['nteam.mstatus', ['NOMINATED', 'SELECTED', 'CONFIRMED', 'DECLINED', 'WITHDRAWN', 'REPLACED']],
   ['nteam.source', ['TRIAL', 'RANKING', 'DISCRETIONARY']],
   ['nteam.reason', ['NOT_REGISTERED', 'NOT_APPROVED', 'SUSPENDED', 'ANTIDOPING_EDUCATION_MISSING', 'SAFEGUARDING_EDUCATION_MISSING', 'UNPAID_FEE']],
+  // 도핑방지: 결과·검사유형·제재유형·제재상태·A/B결과를 t(`adop.*.${x}`) 로 렌더 (광고 ad.* 와 구분)
+  ['adop.outcome', ['PENDING', 'NEGATIVE', 'AAF']],
+  ['adop.ttype', ['IN_COMPETITION', 'OUT_OF_COMPETITION']],
+  ['adop.stype', ['SUSPENSION', 'WARNING', 'DQ']],
+  ['adop.sstatus', ['ACTIVE', 'SERVED', 'APPEALED', 'ANNULLED']],
+  ['adop.result', ['NEG', 'POS']],
   // 업무 좌측 메뉴는 t(`nav.${key}`) 로 렌더된다
   ['nav', ['dashboard', 'ingest', 'approvals', 'organizations', 'people', 'registrations', 'seasons', 'import',
     'certificates', 'events', 'payments', 'grants', 'sponsors', 'content', 'polls', 'ads', 'users', 'integrity',
-    'nationalTeams', 'documents', 'notifications', 'audit', 'reports', 'settings']],
+    'nationalTeams', 'antidoping', 'documents', 'notifications', 'audit', 'reports', 'settings']],
 ];
 for (const [prefix, values] of CONTRACT) {
   const miss = values.filter((v) => !koKeys.has(`${prefix}.${v}`));

@@ -1132,3 +1132,34 @@ export async function getPublicNationalTeamRoster(teamId: string): Promise<Publi
     [teamId]
   );
 }
+
+// ── 도핑방지 (공개) ────────────────────────────────────────────────────────
+// pub.antidoping_sanction(성인·공개 제재만) · pub.antidoping_stat(수치만) 만 조회.
+
+export interface PublicAntidopingSanction {
+  id: UUID;
+  full_name: string;
+  name_latin: string | null;
+  sport_name: I18nText | null;
+  adrv_article: string | null;
+  sanction_type: string;
+  starts_on: string | null;
+  ends_on: string | null;
+  decision_no: string | null;
+  status: string;
+}
+export async function listAntidopingSanctions(limit = 50): Promise<PublicAntidopingSanction[]> {
+  return query<PublicAntidopingSanction>(
+    `SELECT id, full_name, name_latin, sport_name, adrv_article, sanction_type,
+            starts_on::text AS starts_on, ends_on::text AS ends_on, decision_no, status
+       FROM pub.antidoping_sanction
+      ORDER BY starts_on DESC NULLS LAST
+      LIMIT $1`,
+    [Math.min(Math.max(limit, 1), 200)]
+  );
+}
+
+export interface PublicAntidopingStat { year: number; tests: number; aaf: number; educated: number; }
+export async function getAntidopingStats(): Promise<PublicAntidopingStat[]> {
+  return query<PublicAntidopingStat>(`SELECT year, tests, aaf, educated FROM pub.antidoping_stat`);
+}

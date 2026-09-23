@@ -44,6 +44,7 @@ const MENU_GROUPS = [
     items: [
       { key: 'events', path: '/events' },
       { key: 'nationalTeams', path: '/national-teams' },
+      { key: 'antidoping', path: '/antidoping' },
       { key: 'payments', path: '/payments' },
       { key: 'grants', path: '/grants' },
       { key: 'sponsors', path: '/sponsorship' },
