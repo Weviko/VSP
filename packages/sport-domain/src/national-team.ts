@@ -179,13 +179,14 @@ export interface SquadMemberRow {
   id: UUID; person_id: UUID; full_name: string; name_latin: string | null;
   squad_role: SquadRole; nomination_source: string; eval_score: string | null; rank_no: number | null;
   eligibility_check: EligibilityResult | null; member_status: MemberStatus; jersey_no: string | null; note: string | null;
+  verify_code: string | null;
 }
 
 export async function listSquad(callupId: UUID): Promise<SquadMemberRow[]> {
   return query<SquadMemberRow>(
     `SELECT m.id, m.person_id, p.full_name, p.name_latin,
             m.squad_role, m.nomination_source, m.eval_score::text AS eval_score, m.rank_no,
-            m.eligibility_check, m.member_status, m.jersey_no, m.note
+            m.eligibility_check, m.member_status, m.jersey_no, m.note, m.verify_code
        FROM sport.nt_member m
        JOIN core.person p ON p.id = m.person_id
       WHERE m.callup_id = $1

@@ -80,7 +80,10 @@ export default async function CallupDetailPage({
                   const el = m.eligibility_check;
                   return (
                     <Tr key={m.id}>
-                      <Td className="font-medium text-slate-900 wrap-anywhere">{m.full_name}</Td>
+                      <Td className="font-medium text-slate-900 wrap-anywhere">
+                        {m.full_name}
+                        {m.verify_code ? <span className="ml-1.5 font-mono text-[11px] text-slate-400" title={t('coach.verifyCode')}>{m.verify_code}</span> : null}
+                      </Td>
                       <Td><Badge tone="neutral">{t(`nteam.role.${m.squad_role}`)}</Badge></Td>
                       <Td>
                         {el == null ? <span className="text-slate-400">—</span> : el.eligible ? (
