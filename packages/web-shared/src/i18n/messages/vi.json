@@ -790,12 +790,48 @@
     "reflected": "Đã áp dụng vào đăng ký",
     "filterAll": "Tất cả",
     "open": "Đang xử lý",
-    "cat": { "VIOLENCE": "Bạo lực", "SEXUAL": "Xâm hại tình dục", "MATCH_FIXING": "Gian lận thi đấu", "CORRUPTION": "Tiêu cực", "OTHER": "Khác" },
-    "st": { "RECEIVED": "Tiếp nhận", "SCREENING": "Sàng lọc", "INVESTIGATING": "Điều tra", "DECIDED": "Quyết định", "CLOSED": "Kết thúc", "DISMISSED": "Bác bỏ" },
-    "mt": { "WARNING": "Cảnh cáo", "SUSPENSION": "Đình chỉ tư cách", "BAN": "Tước tư cách", "EDU_ORDER": "Yêu cầu tập huấn", "REFERRAL": "Chuyển điều tra" },
-    "sev": { "LOW": "Thấp", "MED": "Trung bình", "HIGH": "Cao" },
-    "role": { "REPORTER": "Người tố giác", "VICTIM": "Nạn nhân", "RESPONDENT": "Người bị tố giác", "WITNESS": "Người làm chứng" },
-    "act": { "SCREEN": "Sàng lọc", "ASSIGN": "Phân công", "REQUEST_INFO": "Yêu cầu tài liệu", "INTERVIEW": "Phỏng vấn", "DECIDE": "Quyết định", "NOTE": "Ghi chú", "CLOSE": "Kết thúc" },
+    "cat": {
+      "VIOLENCE": "Bạo lực",
+      "SEXUAL": "Xâm hại tình dục",
+      "MATCH_FIXING": "Gian lận thi đấu",
+      "CORRUPTION": "Tiêu cực",
+      "OTHER": "Khác"
+    },
+    "st": {
+      "RECEIVED": "Tiếp nhận",
+      "SCREENING": "Sàng lọc",
+      "INVESTIGATING": "Điều tra",
+      "DECIDED": "Quyết định",
+      "CLOSED": "Kết thúc",
+      "DISMISSED": "Bác bỏ"
+    },
+    "mt": {
+      "WARNING": "Cảnh cáo",
+      "SUSPENSION": "Đình chỉ tư cách",
+      "BAN": "Tước tư cách",
+      "EDU_ORDER": "Yêu cầu tập huấn",
+      "REFERRAL": "Chuyển điều tra"
+    },
+    "sev": {
+      "LOW": "Thấp",
+      "MED": "Trung bình",
+      "HIGH": "Cao"
+    },
+    "role": {
+      "REPORTER": "Người tố giác",
+      "VICTIM": "Nạn nhân",
+      "RESPONDENT": "Người bị tố giác",
+      "WITNESS": "Người làm chứng"
+    },
+    "act": {
+      "SCREEN": "Sàng lọc",
+      "ASSIGN": "Phân công",
+      "REQUEST_INFO": "Yêu cầu tài liệu",
+      "INTERVIEW": "Phỏng vấn",
+      "DECIDE": "Quyết định",
+      "NOTE": "Ghi chú",
+      "CLOSE": "Kết thúc"
+    },
     "toolScreen": "Sàng lọc (nhận điều tra)",
     "toolDismiss": "Bác bỏ",
     "toolAssign": "Phân công điều tra viên",
@@ -863,7 +899,11 @@
     "eligible": "Đủ tư cách",
     "ineligible": "Không đủ tư cách",
     "reasons": "Lý do",
-    "source": "Căn cứ tuyển chọn",
+    "source": {
+      "TRIAL": "Thi tuyển",
+      "RANKING": "Xếp hạng",
+      "DISCRETIONARY": "Đề cử"
+    },
     "confirmedOfQuota": "Chốt {n}/{q}",
     "noTeams": "Chưa có đội tuyển.",
     "noCallups": "Chưa có đợt triệu tập.",
@@ -872,15 +912,58 @@
     "approvedOk": "Đã phê duyệt.",
     "finalizedOk": "Đã chốt danh sách.",
     "publicIntro": "Đội tuyển quốc gia theo môn và danh sách chính thức (vận động viên công khai).",
-    "age": { "SENIOR": "Tuyển", "U23": "U23", "U20": "U20", "YOUTH": "Trẻ" },
-    "gender": { "M": "Nam", "F": "Nữ", "MIXED": "Hỗn hợp" },
-    "ctype": { "SELECTION": "Tuyển chọn", "CAMP": "Tập huấn", "COMPETITION_ENTRY": "Đăng ký giải" },
-    "astatus": { "DRAFT": "Nháp", "SUBMITTED": "Đã trình", "APPROVED": "Đã duyệt", "REJECTED": "Từ chối" },
-    "cstatus": { "PLANNED": "Chuẩn bị", "OPEN": "Đang tuyển", "FINALIZED": "Đã chốt", "CANCELLED": "Đã hủy" },
-    "role": { "ATHLETE": "VĐV", "COACH": "HLV", "MANAGER": "Trưởng đoàn", "MEDICAL": "Y tế", "RESERVE": "Dự bị" },
-    "mstatus": { "NOMINATED": "Đề cử", "SELECTED": "Được chọn", "CONFIRMED": "Chốt", "DECLINED": "Từ chối", "WITHDRAWN": "Loại", "REPLACED": "Thay thế" },
-    "source": { "TRIAL": "Thi tuyển", "RANKING": "Xếp hạng", "DISCRETIONARY": "Đề cử" },
-    "reason": { "NOT_REGISTERED": "Chưa đăng ký", "NOT_APPROVED": "Chưa duyệt", "SUSPENDED": "Đình chỉ tư cách", "ANTIDOPING_EDUCATION_MISSING": "Chưa học phòng chống doping", "SAFEGUARDING_EDUCATION_MISSING": "Chưa học bảo vệ quyền", "UNPAID_FEE": "Chưa nộp phí" }
+    "age": {
+      "SENIOR": "Tuyển",
+      "U23": "U23",
+      "U20": "U20",
+      "YOUTH": "Trẻ"
+    },
+    "gender": {
+      "M": "Nam",
+      "F": "Nữ",
+      "MIXED": "Hỗn hợp"
+    },
+    "ctype": {
+      "SELECTION": "Tuyển chọn",
+      "CAMP": "Tập huấn",
+      "COMPETITION_ENTRY": "Đăng ký giải"
+    },
+    "astatus": {
+      "DRAFT": "Nháp",
+      "SUBMITTED": "Đã trình",
+      "APPROVED": "Đã duyệt",
+      "REJECTED": "Từ chối"
+    },
+    "cstatus": {
+      "PLANNED": "Chuẩn bị",
+      "OPEN": "Đang tuyển",
+      "FINALIZED": "Đã chốt",
+      "CANCELLED": "Đã hủy"
+    },
+    "role": {
+      "ATHLETE": "VĐV",
+      "COACH": "HLV",
+      "MANAGER": "Trưởng đoàn",
+      "MEDICAL": "Y tế",
+      "RESERVE": "Dự bị"
+    },
+    "mstatus": {
+      "NOMINATED": "Đề cử",
+      "SELECTED": "Được chọn",
+      "CONFIRMED": "Chốt",
+      "DECLINED": "Từ chối",
+      "WITHDRAWN": "Loại",
+      "REPLACED": "Thay thế"
+    },
+    "reason": {
+      "NOT_REGISTERED": "Chưa đăng ký",
+      "NOT_APPROVED": "Chưa duyệt",
+      "SUSPENDED": "Đình chỉ tư cách",
+      "ANTIDOPING_EDUCATION_MISSING": "Chưa học phòng chống doping",
+      "SAFEGUARDING_EDUCATION_MISSING": "Chưa học bảo vệ quyền",
+      "UNPAID_FEE": "Chưa nộp phí"
+    },
+    "exportEntry": "Xuất Excel"
   },
   "adop": {
     "title": "Phòng chống doping",
@@ -929,11 +1012,30 @@
     "statTests": "Kiểm tra",
     "statAaf": "AAF",
     "statEducated": "Tập huấn",
-    "outcome": { "PENDING": "Chờ", "NEGATIVE": "Âm tính", "AAF": "Dương tính (AAF)" },
-    "ttype": { "IN_COMPETITION": "Trong giải", "OUT_OF_COMPETITION": "Ngoài giải" },
-    "stype": { "SUSPENSION": "Đình chỉ tư cách", "WARNING": "Cảnh cáo", "DQ": "Loại" },
-    "sstatus": { "ACTIVE": "Đang áp dụng", "SERVED": "Đã xong", "APPEALED": "Khiếu nại", "ANNULLED": "Hủy" },
-    "result": { "NEG": "Âm tính", "POS": "Dương tính" },
+    "outcome": {
+      "PENDING": "Chờ",
+      "NEGATIVE": "Âm tính",
+      "AAF": "Dương tính (AAF)"
+    },
+    "ttype": {
+      "IN_COMPETITION": "Trong giải",
+      "OUT_OF_COMPETITION": "Ngoài giải"
+    },
+    "stype": {
+      "SUSPENSION": "Đình chỉ tư cách",
+      "WARNING": "Cảnh cáo",
+      "DQ": "Loại"
+    },
+    "sstatus": {
+      "ACTIVE": "Đang áp dụng",
+      "SERVED": "Đã xong",
+      "APPEALED": "Khiếu nại",
+      "ANNULLED": "Hủy"
+    },
+    "result": {
+      "NEG": "Âm tính",
+      "POS": "Dương tính"
+    },
     "tueTitle": "Miễn trừ điều trị (TUE)",
     "newTue": "Nộp TUE",
     "substance": "Chất",
@@ -942,7 +1044,11 @@
     "approve": "Duyệt",
     "reject": "Từ chối",
     "noTue": "Chưa có hồ sơ TUE.",
-    "tuestatus": { "PENDING": "Đang xét", "APPROVED": "Đã duyệt", "REJECTED": "Từ chối" }
+    "tuestatus": {
+      "PENDING": "Đang xét",
+      "APPROVED": "Đã duyệt",
+      "REJECTED": "Từ chối"
+    }
   },
   "club": {
     "title": "Câu lạc bộ thể thao",
@@ -980,11 +1086,37 @@
     "designated": "CLB chỉ định",
     "pending": "Chờ duyệt",
     "full": "Đã đủ chỗ.",
-    "ctype": { "COMMUNITY": "Cộng đồng", "PUBLIC": "Công lập", "DESIGNATED": "Chỉ định" },
-    "cstatus": { "DRAFT": "Nháp", "SUBMITTED": "Đang xét", "APPROVED": "Đã duyệt", "REJECTED": "Từ chối", "SUSPENDED": "Đình chỉ", "CLOSED": "Đóng" },
-    "role": { "MEMBER": "Thành viên", "LEADER": "Đại diện", "INSTRUCTOR": "Hướng dẫn" },
-    "pcat": { "YOUTH": "Thanh thiếu niên", "ADULT": "Người lớn", "SENIOR": "Cao tuổi", "PARA": "Người khuyết tật", "ALL": "Tất cả" },
-    "pstatus": { "DRAFT": "Chuẩn bị", "OPEN": "Đang tuyển", "CLOSED": "Đã đóng", "FINISHED": "Kết thúc" }
+    "ctype": {
+      "COMMUNITY": "Cộng đồng",
+      "PUBLIC": "Công lập",
+      "DESIGNATED": "Chỉ định"
+    },
+    "cstatus": {
+      "DRAFT": "Nháp",
+      "SUBMITTED": "Đang xét",
+      "APPROVED": "Đã duyệt",
+      "REJECTED": "Từ chối",
+      "SUSPENDED": "Đình chỉ",
+      "CLOSED": "Đóng"
+    },
+    "role": {
+      "MEMBER": "Thành viên",
+      "LEADER": "Đại diện",
+      "INSTRUCTOR": "Hướng dẫn"
+    },
+    "pcat": {
+      "YOUTH": "Thanh thiếu niên",
+      "ADULT": "Người lớn",
+      "SENIOR": "Cao tuổi",
+      "PARA": "Người khuyết tật",
+      "ALL": "Tất cả"
+    },
+    "pstatus": {
+      "DRAFT": "Chuẩn bị",
+      "OPEN": "Đang tuyển",
+      "CLOSED": "Đã đóng",
+      "FINISHED": "Kết thúc"
+    }
   },
   "coach": {
     "title": "Chứng nhận & đào tạo HLV",
@@ -1029,10 +1161,28 @@
     "expiringSoon": "Sắp hết hạn (90 ngày)",
     "openCourses": "Khóa đang mở",
     "gradesCount": "Số cấp bậc",
-    "ctype": { "QUALIFICATION": "Cấp mới", "REFRESHER": "Bồi dưỡng" },
-    "cstatus": { "DRAFT": "Chuẩn bị", "OPEN": "Đang tuyển", "CLOSED": "Đã đóng", "FINISHED": "Kết thúc" },
-    "estatus": { "ENROLLED": "Đang học", "COMPLETED": "Hoàn thành", "FAILED": "Không đạt", "CANCELLED": "Hủy" },
-    "credstatus": { "VALID": "Hiệu lực", "EXPIRED": "Hết hạn", "SUSPENDED": "Đình chỉ", "REVOKED": "Thu hồi" }
+    "ctype": {
+      "QUALIFICATION": "Cấp mới",
+      "REFRESHER": "Bồi dưỡng"
+    },
+    "cstatus": {
+      "DRAFT": "Chuẩn bị",
+      "OPEN": "Đang tuyển",
+      "CLOSED": "Đã đóng",
+      "FINISHED": "Kết thúc"
+    },
+    "estatus": {
+      "ENROLLED": "Đang học",
+      "COMPLETED": "Hoàn thành",
+      "FAILED": "Không đạt",
+      "CANCELLED": "Hủy"
+    },
+    "credstatus": {
+      "VALID": "Hiệu lực",
+      "EXPIRED": "Hết hạn",
+      "SUSPENDED": "Đình chỉ",
+      "REVOKED": "Thu hồi"
+    }
   },
   "ops": {
     "title": "Điều hành giải",
@@ -1058,9 +1208,35 @@
     "empty": "Không có dữ liệu.",
     "remove": "Gỡ",
     "publicOfficials": "Tổ trọng tài",
-    "role": { "CHIEF_REFEREE": "Trọng tài chính", "REFEREE": "Trọng tài", "JUDGE": "Giám định", "SCORER": "Thư ký", "TIMEKEEPER": "Bấm giờ", "COMMISSIONER": "Giám sát" },
-    "ostatus": { "ASSIGNED": "Đã phân", "CONFIRMED": "Xác nhận", "DECLINED": "Từ chối", "REPLACED": "Thay" },
-    "kind": { "SCORE": "Ghi điểm", "FOUL": "Phạm lỗi", "SUB": "Thay người", "PERIOD_START": "Bắt đầu hiệp", "PERIOD_END": "Hết hiệp", "TIMEOUT": "Hội ý", "CARD": "Thẻ", "NOTE": "Ghi chú" },
-    "mstatus": { "SCHEDULED": "Sắp diễn ra", "LIVE": "Đang diễn ra", "FINISHED": "Kết thúc", "CANCELLED": "Hủy" }
+    "role": {
+      "CHIEF_REFEREE": "Trọng tài chính",
+      "REFEREE": "Trọng tài",
+      "JUDGE": "Giám định",
+      "SCORER": "Thư ký",
+      "TIMEKEEPER": "Bấm giờ",
+      "COMMISSIONER": "Giám sát"
+    },
+    "ostatus": {
+      "ASSIGNED": "Đã phân",
+      "CONFIRMED": "Xác nhận",
+      "DECLINED": "Từ chối",
+      "REPLACED": "Thay"
+    },
+    "kind": {
+      "SCORE": "Ghi điểm",
+      "FOUL": "Phạm lỗi",
+      "SUB": "Thay người",
+      "PERIOD_START": "Bắt đầu hiệp",
+      "PERIOD_END": "Hết hiệp",
+      "TIMEOUT": "Hội ý",
+      "CARD": "Thẻ",
+      "NOTE": "Ghi chú"
+    },
+    "mstatus": {
+      "SCHEDULED": "Sắp diễn ra",
+      "LIVE": "Đang diễn ra",
+      "FINISHED": "Kết thúc",
+      "CANCELLED": "Hủy"
+    }
   }
 }

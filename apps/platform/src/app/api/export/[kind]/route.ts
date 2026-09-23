@@ -4,7 +4,7 @@ import {
   listRegister, listAwards, listPaymentOrders, personImportTemplate, orgImportTemplate,
   type UUID,
 } from '@vsp/core-admin';
-import { listRegistrations, searchAthletes } from '@vsp/sport-domain';
+import { listRegistrations, searchAthletes, listSquad } from '@vsp/sport-domain';
 import { isLocale, type Locale } from '@vsp/web-shared/i18n/config';
 import { workUserOrNull } from '@/lib/session';
 
@@ -173,6 +173,29 @@ async function buildFor(
       }),
     ]);
     return { buffer, fileName: exportFileName('athletes') };
+  }
+
+  if (kind === 'national-team-entry') {
+    const callupId = params.get('callup') as UUID | null;
+    if (!callupId) return null;
+    const squad = (await listSquad(callupId)).filter(
+      (m) => m.member_status === 'CONFIRMED' && (m.squad_role === 'ATHLETE' || m.squad_role === 'RESERVE')
+    );
+    const buffer = await buildWorkbook([
+      sheet({
+        name: 'Entry',
+        title: 'Danh sách đội tuyển · 국가대표 엔트리',
+        subtitle: `${squad.length}`,
+        columns: [
+          { header: 'Họ tên', value: (r) => r.full_name, width: 26 },
+          { header: 'Latin', value: (r) => r.name_latin ?? '', width: 24 },
+          { header: 'Vai trò', value: (r) => r.squad_role, width: 12 },
+          { header: 'Số áo', value: (r) => r.jersey_no ?? '', width: 8 },
+        ],
+        rows: squad,
+      }),
+    ]);
+    return { buffer, fileName: exportFileName('national_team_entry') };
   }
 
   if (kind === 'registrations') {

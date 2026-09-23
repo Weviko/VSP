@@ -790,12 +790,48 @@
     "reflected": "Applied to registration",
     "filterAll": "All",
     "open": "Open",
-    "cat": { "VIOLENCE": "Violence", "SEXUAL": "Sexual misconduct", "MATCH_FIXING": "Match manipulation", "CORRUPTION": "Corruption", "OTHER": "Other" },
-    "st": { "RECEIVED": "Received", "SCREENING": "Screening", "INVESTIGATING": "Investigating", "DECIDED": "Decided", "CLOSED": "Closed", "DISMISSED": "Dismissed" },
-    "mt": { "WARNING": "Warning", "SUSPENSION": "Suspension", "BAN": "Ban", "EDU_ORDER": "Education order", "REFERRAL": "Referral" },
-    "sev": { "LOW": "Low", "MED": "Medium", "HIGH": "High" },
-    "role": { "REPORTER": "Reporter", "VICTIM": "Victim", "RESPONDENT": "Respondent", "WITNESS": "Witness" },
-    "act": { "SCREEN": "Screen", "ASSIGN": "Assign", "REQUEST_INFO": "Request info", "INTERVIEW": "Interview", "DECIDE": "Decide", "NOTE": "Note", "CLOSE": "Close" },
+    "cat": {
+      "VIOLENCE": "Violence",
+      "SEXUAL": "Sexual misconduct",
+      "MATCH_FIXING": "Match manipulation",
+      "CORRUPTION": "Corruption",
+      "OTHER": "Other"
+    },
+    "st": {
+      "RECEIVED": "Received",
+      "SCREENING": "Screening",
+      "INVESTIGATING": "Investigating",
+      "DECIDED": "Decided",
+      "CLOSED": "Closed",
+      "DISMISSED": "Dismissed"
+    },
+    "mt": {
+      "WARNING": "Warning",
+      "SUSPENSION": "Suspension",
+      "BAN": "Ban",
+      "EDU_ORDER": "Education order",
+      "REFERRAL": "Referral"
+    },
+    "sev": {
+      "LOW": "Low",
+      "MED": "Medium",
+      "HIGH": "High"
+    },
+    "role": {
+      "REPORTER": "Reporter",
+      "VICTIM": "Victim",
+      "RESPONDENT": "Respondent",
+      "WITNESS": "Witness"
+    },
+    "act": {
+      "SCREEN": "Screen",
+      "ASSIGN": "Assign",
+      "REQUEST_INFO": "Request info",
+      "INTERVIEW": "Interview",
+      "DECIDE": "Decide",
+      "NOTE": "Note",
+      "CLOSE": "Close"
+    },
     "toolScreen": "Screen (accept for investigation)",
     "toolDismiss": "Dismiss",
     "toolAssign": "Assign investigator",
@@ -863,7 +899,11 @@
     "eligible": "Eligible",
     "ineligible": "Ineligible",
     "reasons": "Reasons",
-    "source": "Basis",
+    "source": {
+      "TRIAL": "Trial",
+      "RANKING": "Ranking",
+      "DISCRETIONARY": "Discretionary"
+    },
     "confirmedOfQuota": "Confirmed {n}/{q}",
     "noTeams": "No national teams.",
     "noCallups": "No call-ups.",
@@ -872,15 +912,58 @@
     "approvedOk": "Approved.",
     "finalizedOk": "Squad finalized.",
     "publicIntro": "National teams by sport and their finalized rosters (public athletes).",
-    "age": { "SENIOR": "Senior", "U23": "U23", "U20": "U20", "YOUTH": "Youth" },
-    "gender": { "M": "Men", "F": "Women", "MIXED": "Mixed" },
-    "ctype": { "SELECTION": "Selection", "CAMP": "Camp", "COMPETITION_ENTRY": "Entry" },
-    "astatus": { "DRAFT": "Draft", "SUBMITTED": "Submitted", "APPROVED": "Approved", "REJECTED": "Rejected" },
-    "cstatus": { "PLANNED": "Planned", "OPEN": "Open", "FINALIZED": "Finalized", "CANCELLED": "Cancelled" },
-    "role": { "ATHLETE": "Athlete", "COACH": "Coach", "MANAGER": "Manager", "MEDICAL": "Medical", "RESERVE": "Reserve" },
-    "mstatus": { "NOMINATED": "Nominated", "SELECTED": "Selected", "CONFIRMED": "Confirmed", "DECLINED": "Declined", "WITHDRAWN": "Withdrawn", "REPLACED": "Replaced" },
-    "source": { "TRIAL": "Trial", "RANKING": "Ranking", "DISCRETIONARY": "Discretionary" },
-    "reason": { "NOT_REGISTERED": "Not registered", "NOT_APPROVED": "Not approved", "SUSPENDED": "Suspended", "ANTIDOPING_EDUCATION_MISSING": "Anti-doping education missing", "SAFEGUARDING_EDUCATION_MISSING": "Safeguarding education missing", "UNPAID_FEE": "Unpaid fee" }
+    "age": {
+      "SENIOR": "Senior",
+      "U23": "U23",
+      "U20": "U20",
+      "YOUTH": "Youth"
+    },
+    "gender": {
+      "M": "Men",
+      "F": "Women",
+      "MIXED": "Mixed"
+    },
+    "ctype": {
+      "SELECTION": "Selection",
+      "CAMP": "Camp",
+      "COMPETITION_ENTRY": "Entry"
+    },
+    "astatus": {
+      "DRAFT": "Draft",
+      "SUBMITTED": "Submitted",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected"
+    },
+    "cstatus": {
+      "PLANNED": "Planned",
+      "OPEN": "Open",
+      "FINALIZED": "Finalized",
+      "CANCELLED": "Cancelled"
+    },
+    "role": {
+      "ATHLETE": "Athlete",
+      "COACH": "Coach",
+      "MANAGER": "Manager",
+      "MEDICAL": "Medical",
+      "RESERVE": "Reserve"
+    },
+    "mstatus": {
+      "NOMINATED": "Nominated",
+      "SELECTED": "Selected",
+      "CONFIRMED": "Confirmed",
+      "DECLINED": "Declined",
+      "WITHDRAWN": "Withdrawn",
+      "REPLACED": "Replaced"
+    },
+    "reason": {
+      "NOT_REGISTERED": "Not registered",
+      "NOT_APPROVED": "Not approved",
+      "SUSPENDED": "Suspended",
+      "ANTIDOPING_EDUCATION_MISSING": "Anti-doping education missing",
+      "SAFEGUARDING_EDUCATION_MISSING": "Safeguarding education missing",
+      "UNPAID_FEE": "Unpaid fee"
+    },
+    "exportEntry": "Export entry"
   },
   "adop": {
     "title": "Anti-doping",
@@ -929,11 +1012,30 @@
     "statTests": "Tests",
     "statAaf": "AAF",
     "statEducated": "Educated",
-    "outcome": { "PENDING": "Pending", "NEGATIVE": "Negative", "AAF": "Positive (AAF)" },
-    "ttype": { "IN_COMPETITION": "In-competition", "OUT_OF_COMPETITION": "Out-of-competition" },
-    "stype": { "SUSPENSION": "Suspension", "WARNING": "Warning", "DQ": "Disqualification" },
-    "sstatus": { "ACTIVE": "Active", "SERVED": "Served", "APPEALED": "Appealed", "ANNULLED": "Annulled" },
-    "result": { "NEG": "Negative", "POS": "Positive" },
+    "outcome": {
+      "PENDING": "Pending",
+      "NEGATIVE": "Negative",
+      "AAF": "Positive (AAF)"
+    },
+    "ttype": {
+      "IN_COMPETITION": "In-competition",
+      "OUT_OF_COMPETITION": "Out-of-competition"
+    },
+    "stype": {
+      "SUSPENSION": "Suspension",
+      "WARNING": "Warning",
+      "DQ": "Disqualification"
+    },
+    "sstatus": {
+      "ACTIVE": "Active",
+      "SERVED": "Served",
+      "APPEALED": "Appealed",
+      "ANNULLED": "Annulled"
+    },
+    "result": {
+      "NEG": "Negative",
+      "POS": "Positive"
+    },
     "tueTitle": "Therapeutic Use Exemption (TUE)",
     "newTue": "Submit TUE",
     "substance": "Substance",
@@ -942,7 +1044,11 @@
     "approve": "Approve",
     "reject": "Reject",
     "noTue": "No TUE applications.",
-    "tuestatus": { "PENDING": "Pending", "APPROVED": "Approved", "REJECTED": "Rejected" }
+    "tuestatus": {
+      "PENDING": "Pending",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected"
+    }
   },
   "club": {
     "title": "Sports clubs",
@@ -980,11 +1086,37 @@
     "designated": "Designated",
     "pending": "Pending",
     "full": "Program is full.",
-    "ctype": { "COMMUNITY": "Community", "PUBLIC": "Public", "DESIGNATED": "Designated" },
-    "cstatus": { "DRAFT": "Draft", "SUBMITTED": "Under review", "APPROVED": "Approved", "REJECTED": "Rejected", "SUSPENDED": "Suspended", "CLOSED": "Closed" },
-    "role": { "MEMBER": "Member", "LEADER": "Leader", "INSTRUCTOR": "Instructor" },
-    "pcat": { "YOUTH": "Youth", "ADULT": "Adult", "SENIOR": "Senior", "PARA": "Para", "ALL": "All" },
-    "pstatus": { "DRAFT": "Draft", "OPEN": "Open", "CLOSED": "Closed", "FINISHED": "Finished" }
+    "ctype": {
+      "COMMUNITY": "Community",
+      "PUBLIC": "Public",
+      "DESIGNATED": "Designated"
+    },
+    "cstatus": {
+      "DRAFT": "Draft",
+      "SUBMITTED": "Under review",
+      "APPROVED": "Approved",
+      "REJECTED": "Rejected",
+      "SUSPENDED": "Suspended",
+      "CLOSED": "Closed"
+    },
+    "role": {
+      "MEMBER": "Member",
+      "LEADER": "Leader",
+      "INSTRUCTOR": "Instructor"
+    },
+    "pcat": {
+      "YOUTH": "Youth",
+      "ADULT": "Adult",
+      "SENIOR": "Senior",
+      "PARA": "Para",
+      "ALL": "All"
+    },
+    "pstatus": {
+      "DRAFT": "Draft",
+      "OPEN": "Open",
+      "CLOSED": "Closed",
+      "FINISHED": "Finished"
+    }
   },
   "coach": {
     "title": "Coach qualification",
@@ -1029,10 +1161,28 @@
     "expiringSoon": "Expiring (90d)",
     "openCourses": "Open courses",
     "gradesCount": "Grades",
-    "ctype": { "QUALIFICATION": "Qualification", "REFRESHER": "Refresher" },
-    "cstatus": { "DRAFT": "Draft", "OPEN": "Open", "CLOSED": "Closed", "FINISHED": "Finished" },
-    "estatus": { "ENROLLED": "Enrolled", "COMPLETED": "Completed", "FAILED": "Failed", "CANCELLED": "Cancelled" },
-    "credstatus": { "VALID": "Valid", "EXPIRED": "Expired", "SUSPENDED": "Suspended", "REVOKED": "Revoked" }
+    "ctype": {
+      "QUALIFICATION": "Qualification",
+      "REFRESHER": "Refresher"
+    },
+    "cstatus": {
+      "DRAFT": "Draft",
+      "OPEN": "Open",
+      "CLOSED": "Closed",
+      "FINISHED": "Finished"
+    },
+    "estatus": {
+      "ENROLLED": "Enrolled",
+      "COMPLETED": "Completed",
+      "FAILED": "Failed",
+      "CANCELLED": "Cancelled"
+    },
+    "credstatus": {
+      "VALID": "Valid",
+      "EXPIRED": "Expired",
+      "SUSPENDED": "Suspended",
+      "REVOKED": "Revoked"
+    }
   },
   "ops": {
     "title": "Competition ops",
@@ -1058,9 +1208,35 @@
     "empty": "No data.",
     "remove": "Remove",
     "publicOfficials": "Officials",
-    "role": { "CHIEF_REFEREE": "Chief referee", "REFEREE": "Referee", "JUDGE": "Judge", "SCORER": "Scorer", "TIMEKEEPER": "Timekeeper", "COMMISSIONER": "Commissioner" },
-    "ostatus": { "ASSIGNED": "Assigned", "CONFIRMED": "Confirmed", "DECLINED": "Declined", "REPLACED": "Replaced" },
-    "kind": { "SCORE": "Score", "FOUL": "Foul", "SUB": "Sub", "PERIOD_START": "Period start", "PERIOD_END": "Period end", "TIMEOUT": "Timeout", "CARD": "Card", "NOTE": "Note" },
-    "mstatus": { "SCHEDULED": "Scheduled", "LIVE": "Live", "FINISHED": "Finished", "CANCELLED": "Cancelled" }
+    "role": {
+      "CHIEF_REFEREE": "Chief referee",
+      "REFEREE": "Referee",
+      "JUDGE": "Judge",
+      "SCORER": "Scorer",
+      "TIMEKEEPER": "Timekeeper",
+      "COMMISSIONER": "Commissioner"
+    },
+    "ostatus": {
+      "ASSIGNED": "Assigned",
+      "CONFIRMED": "Confirmed",
+      "DECLINED": "Declined",
+      "REPLACED": "Replaced"
+    },
+    "kind": {
+      "SCORE": "Score",
+      "FOUL": "Foul",
+      "SUB": "Sub",
+      "PERIOD_START": "Period start",
+      "PERIOD_END": "Period end",
+      "TIMEOUT": "Timeout",
+      "CARD": "Card",
+      "NOTE": "Note"
+    },
+    "mstatus": {
+      "SCHEDULED": "Scheduled",
+      "LIVE": "Live",
+      "FINISHED": "Finished",
+      "CANCELLED": "Cancelled"
+    }
   }
 }

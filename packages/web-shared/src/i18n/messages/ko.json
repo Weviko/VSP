@@ -790,12 +790,48 @@
     "reflected": "등록 반영됨",
     "filterAll": "전체",
     "open": "처리 중",
-    "cat": { "VIOLENCE": "폭력", "SEXUAL": "성비위", "MATCH_FIXING": "경기 부정", "CORRUPTION": "비리", "OTHER": "기타" },
-    "st": { "RECEIVED": "접수", "SCREENING": "선별", "INVESTIGATING": "조사", "DECIDED": "결정", "CLOSED": "종결", "DISMISSED": "각하" },
-    "mt": { "WARNING": "경고", "SUSPENSION": "자격정지", "BAN": "자격박탈", "EDU_ORDER": "교육명령", "REFERRAL": "수사의뢰" },
-    "sev": { "LOW": "낮음", "MED": "보통", "HIGH": "높음" },
-    "role": { "REPORTER": "신고자", "VICTIM": "피해자", "RESPONDENT": "피신고인", "WITNESS": "참고인" },
-    "act": { "SCREEN": "선별", "ASSIGN": "배정", "REQUEST_INFO": "자료요청", "INTERVIEW": "면담", "DECIDE": "결정", "NOTE": "메모", "CLOSE": "종결" },
+    "cat": {
+      "VIOLENCE": "폭력",
+      "SEXUAL": "성비위",
+      "MATCH_FIXING": "경기 부정",
+      "CORRUPTION": "비리",
+      "OTHER": "기타"
+    },
+    "st": {
+      "RECEIVED": "접수",
+      "SCREENING": "선별",
+      "INVESTIGATING": "조사",
+      "DECIDED": "결정",
+      "CLOSED": "종결",
+      "DISMISSED": "각하"
+    },
+    "mt": {
+      "WARNING": "경고",
+      "SUSPENSION": "자격정지",
+      "BAN": "자격박탈",
+      "EDU_ORDER": "교육명령",
+      "REFERRAL": "수사의뢰"
+    },
+    "sev": {
+      "LOW": "낮음",
+      "MED": "보통",
+      "HIGH": "높음"
+    },
+    "role": {
+      "REPORTER": "신고자",
+      "VICTIM": "피해자",
+      "RESPONDENT": "피신고인",
+      "WITNESS": "참고인"
+    },
+    "act": {
+      "SCREEN": "선별",
+      "ASSIGN": "배정",
+      "REQUEST_INFO": "자료요청",
+      "INTERVIEW": "면담",
+      "DECIDE": "결정",
+      "NOTE": "메모",
+      "CLOSE": "종결"
+    },
     "toolScreen": "선별(조사 채택)",
     "toolDismiss": "각하",
     "toolAssign": "조사자 배정",
@@ -863,7 +899,11 @@
     "eligible": "자격 충족",
     "ineligible": "자격 미달",
     "reasons": "사유",
-    "source": "선발 근거",
+    "source": {
+      "TRIAL": "선발전",
+      "RANKING": "랭킹",
+      "DISCRETIONARY": "추천"
+    },
     "confirmedOfQuota": "확정 {n}/{q}",
     "noTeams": "국가대표팀이 없습니다.",
     "noCallups": "소집이 없습니다.",
@@ -872,15 +912,58 @@
     "approvedOk": "승인했습니다.",
     "finalizedOk": "명단을 확정했습니다.",
     "publicIntro": "종목별 국가대표팀과 확정 명단(공개 대표선수).",
-    "age": { "SENIOR": "성인", "U23": "U23", "U20": "U20", "YOUTH": "유소년" },
-    "gender": { "M": "남", "F": "여", "MIXED": "혼성" },
-    "ctype": { "SELECTION": "선발", "CAMP": "훈련캠프", "COMPETITION_ENTRY": "대회 엔트리" },
-    "astatus": { "DRAFT": "초안", "SUBMITTED": "상신", "APPROVED": "승인", "REJECTED": "반려" },
-    "cstatus": { "PLANNED": "준비", "OPEN": "모집", "FINALIZED": "확정", "CANCELLED": "취소" },
-    "role": { "ATHLETE": "선수", "COACH": "코치", "MANAGER": "단장", "MEDICAL": "의무", "RESERVE": "예비" },
-    "mstatus": { "NOMINATED": "지명", "SELECTED": "선발", "CONFIRMED": "확정", "DECLINED": "고사", "WITHDRAWN": "제외", "REPLACED": "교체" },
-    "source": { "TRIAL": "선발전", "RANKING": "랭킹", "DISCRETIONARY": "추천" },
-    "reason": { "NOT_REGISTERED": "미등록", "NOT_APPROVED": "미승인", "SUSPENDED": "자격정지", "ANTIDOPING_EDUCATION_MISSING": "도핑교육 미이수", "SAFEGUARDING_EDUCATION_MISSING": "인권보호교육 미이수", "UNPAID_FEE": "미납" }
+    "age": {
+      "SENIOR": "성인",
+      "U23": "U23",
+      "U20": "U20",
+      "YOUTH": "유소년"
+    },
+    "gender": {
+      "M": "남",
+      "F": "여",
+      "MIXED": "혼성"
+    },
+    "ctype": {
+      "SELECTION": "선발",
+      "CAMP": "훈련캠프",
+      "COMPETITION_ENTRY": "대회 엔트리"
+    },
+    "astatus": {
+      "DRAFT": "초안",
+      "SUBMITTED": "상신",
+      "APPROVED": "승인",
+      "REJECTED": "반려"
+    },
+    "cstatus": {
+      "PLANNED": "준비",
+      "OPEN": "모집",
+      "FINALIZED": "확정",
+      "CANCELLED": "취소"
+    },
+    "role": {
+      "ATHLETE": "선수",
+      "COACH": "코치",
+      "MANAGER": "단장",
+      "MEDICAL": "의무",
+      "RESERVE": "예비"
+    },
+    "mstatus": {
+      "NOMINATED": "지명",
+      "SELECTED": "선발",
+      "CONFIRMED": "확정",
+      "DECLINED": "고사",
+      "WITHDRAWN": "제외",
+      "REPLACED": "교체"
+    },
+    "reason": {
+      "NOT_REGISTERED": "미등록",
+      "NOT_APPROVED": "미승인",
+      "SUSPENDED": "자격정지",
+      "ANTIDOPING_EDUCATION_MISSING": "도핑교육 미이수",
+      "SAFEGUARDING_EDUCATION_MISSING": "인권보호교육 미이수",
+      "UNPAID_FEE": "미납"
+    },
+    "exportEntry": "엔트리 엑셀"
   },
   "adop": {
     "title": "도핑방지",
@@ -929,11 +1012,30 @@
     "statTests": "검사",
     "statAaf": "AAF",
     "statEducated": "교육 이수",
-    "outcome": { "PENDING": "대기", "NEGATIVE": "음성", "AAF": "양성(AAF)" },
-    "ttype": { "IN_COMPETITION": "경기기간", "OUT_OF_COMPETITION": "경기외" },
-    "stype": { "SUSPENSION": "자격정지", "WARNING": "경고", "DQ": "실격" },
-    "sstatus": { "ACTIVE": "집행중", "SERVED": "종료", "APPEALED": "이의", "ANNULLED": "취소" },
-    "result": { "NEG": "음성", "POS": "양성" },
+    "outcome": {
+      "PENDING": "대기",
+      "NEGATIVE": "음성",
+      "AAF": "양성(AAF)"
+    },
+    "ttype": {
+      "IN_COMPETITION": "경기기간",
+      "OUT_OF_COMPETITION": "경기외"
+    },
+    "stype": {
+      "SUSPENSION": "자격정지",
+      "WARNING": "경고",
+      "DQ": "실격"
+    },
+    "sstatus": {
+      "ACTIVE": "집행중",
+      "SERVED": "종료",
+      "APPEALED": "이의",
+      "ANNULLED": "취소"
+    },
+    "result": {
+      "NEG": "음성",
+      "POS": "양성"
+    },
     "tueTitle": "치료목적 사용면책(TUE)",
     "newTue": "TUE 신청",
     "substance": "약물",
@@ -942,7 +1044,11 @@
     "approve": "승인",
     "reject": "반려",
     "noTue": "TUE 신청이 없습니다.",
-    "tuestatus": { "PENDING": "심의중", "APPROVED": "승인", "REJECTED": "반려" }
+    "tuestatus": {
+      "PENDING": "심의중",
+      "APPROVED": "승인",
+      "REJECTED": "반려"
+    }
   },
   "club": {
     "title": "생활체육 클럽",
@@ -980,11 +1086,37 @@
     "designated": "지정 클럽",
     "pending": "승인 대기",
     "full": "정원이 찼습니다.",
-    "ctype": { "COMMUNITY": "동호회", "PUBLIC": "공공", "DESIGNATED": "지정" },
-    "cstatus": { "DRAFT": "작성중", "SUBMITTED": "심사중", "APPROVED": "승인", "REJECTED": "반려", "SUSPENDED": "정지", "CLOSED": "폐쇄" },
-    "role": { "MEMBER": "회원", "LEADER": "대표", "INSTRUCTOR": "지도자" },
-    "pcat": { "YOUTH": "청소년", "ADULT": "성인", "SENIOR": "어르신", "PARA": "장애인", "ALL": "전체" },
-    "pstatus": { "DRAFT": "준비", "OPEN": "모집중", "CLOSED": "마감", "FINISHED": "종료" }
+    "ctype": {
+      "COMMUNITY": "동호회",
+      "PUBLIC": "공공",
+      "DESIGNATED": "지정"
+    },
+    "cstatus": {
+      "DRAFT": "작성중",
+      "SUBMITTED": "심사중",
+      "APPROVED": "승인",
+      "REJECTED": "반려",
+      "SUSPENDED": "정지",
+      "CLOSED": "폐쇄"
+    },
+    "role": {
+      "MEMBER": "회원",
+      "LEADER": "대표",
+      "INSTRUCTOR": "지도자"
+    },
+    "pcat": {
+      "YOUTH": "청소년",
+      "ADULT": "성인",
+      "SENIOR": "어르신",
+      "PARA": "장애인",
+      "ALL": "전체"
+    },
+    "pstatus": {
+      "DRAFT": "준비",
+      "OPEN": "모집중",
+      "CLOSED": "마감",
+      "FINISHED": "종료"
+    }
   },
   "coach": {
     "title": "지도자 자격·연수",
@@ -1029,10 +1161,28 @@
     "expiringSoon": "만료 예정(90일)",
     "openCourses": "진행 과정",
     "gradesCount": "등급 수",
-    "ctype": { "QUALIFICATION": "취득", "REFRESHER": "보수" },
-    "cstatus": { "DRAFT": "준비", "OPEN": "모집중", "CLOSED": "마감", "FINISHED": "종료" },
-    "estatus": { "ENROLLED": "수강", "COMPLETED": "이수", "FAILED": "미이수", "CANCELLED": "취소" },
-    "credstatus": { "VALID": "유효", "EXPIRED": "만료", "SUSPENDED": "정지", "REVOKED": "무효" }
+    "ctype": {
+      "QUALIFICATION": "취득",
+      "REFRESHER": "보수"
+    },
+    "cstatus": {
+      "DRAFT": "준비",
+      "OPEN": "모집중",
+      "CLOSED": "마감",
+      "FINISHED": "종료"
+    },
+    "estatus": {
+      "ENROLLED": "수강",
+      "COMPLETED": "이수",
+      "FAILED": "미이수",
+      "CANCELLED": "취소"
+    },
+    "credstatus": {
+      "VALID": "유효",
+      "EXPIRED": "만료",
+      "SUSPENDED": "정지",
+      "REVOKED": "무효"
+    }
   },
   "ops": {
     "title": "대회 운영",
@@ -1058,9 +1208,35 @@
     "empty": "데이터가 없습니다.",
     "remove": "해제",
     "publicOfficials": "심판진",
-    "role": { "CHIEF_REFEREE": "주심", "REFEREE": "심판", "JUDGE": "채점위원", "SCORER": "기록원", "TIMEKEEPER": "계시원", "COMMISSIONER": "경기감독관" },
-    "ostatus": { "ASSIGNED": "배정", "CONFIRMED": "확정", "DECLINED": "거절", "REPLACED": "교체" },
-    "kind": { "SCORE": "득점", "FOUL": "반칙", "SUB": "교체", "PERIOD_START": "피리어드 시작", "PERIOD_END": "피리어드 종료", "TIMEOUT": "타임아웃", "CARD": "카드", "NOTE": "메모" },
-    "mstatus": { "SCHEDULED": "예정", "LIVE": "진행중", "FINISHED": "종료", "CANCELLED": "취소" }
+    "role": {
+      "CHIEF_REFEREE": "주심",
+      "REFEREE": "심판",
+      "JUDGE": "채점위원",
+      "SCORER": "기록원",
+      "TIMEKEEPER": "계시원",
+      "COMMISSIONER": "경기감독관"
+    },
+    "ostatus": {
+      "ASSIGNED": "배정",
+      "CONFIRMED": "확정",
+      "DECLINED": "거절",
+      "REPLACED": "교체"
+    },
+    "kind": {
+      "SCORE": "득점",
+      "FOUL": "반칙",
+      "SUB": "교체",
+      "PERIOD_START": "피리어드 시작",
+      "PERIOD_END": "피리어드 종료",
+      "TIMEOUT": "타임아웃",
+      "CARD": "카드",
+      "NOTE": "메모"
+    },
+    "mstatus": {
+      "SCHEDULED": "예정",
+      "LIVE": "진행중",
+      "FINISHED": "종료",
+      "CANCELLED": "취소"
+    }
   }
 }

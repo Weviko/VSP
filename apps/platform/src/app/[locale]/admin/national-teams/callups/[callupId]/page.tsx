@@ -4,7 +4,7 @@ import { t as pick } from '@vsp/core-admin';
 import { getCallup, listSquad, type SquadRole, type MemberStatus } from '@vsp/sport-domain';
 import { isLocale, type Locale } from '@vsp/web-shared/i18n/config';
 import { getMessages } from '@vsp/web-shared/i18n';
-import { PageHeader, Card, Table, Tr, Td, Badge, EmptyState } from '@vsp/web-shared/ui';
+import { PageHeader, Card, Table, Tr, Td, Badge, EmptyState, ExportButton } from '@vsp/web-shared/ui';
 import { requireWorkspace } from '@/lib/session';
 import { PersonPicker } from '@/components/PersonPicker';
 import {
@@ -64,13 +64,18 @@ export default async function CallupDetailPage({
         <div className="space-y-6 lg:col-span-2">
           {/* 명단 */}
           <section>
-            <div className="mb-2 flex items-center justify-between">
+            <div className="mb-2 flex items-center justify-between gap-2">
               <h2 className="text-sm font-semibold text-slate-800">{t('nteam.squad')}</h2>
-              {isApproved && callup.status !== 'FINALIZED' ? (
-                <form action={finalizeSquadForm.bind(null, locale, callup.id)}>
-                  <button className="rounded bg-emerald-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-800">{t('nteam.finalize')}</button>
-                </form>
-              ) : null}
+              <div className="flex items-center gap-2">
+                {callup.confirmed_count > 0 ? (
+                  <ExportButton kind="national-team-entry" label={t('nteam.exportEntry')} params={{ callup: callup.id, locale }} />
+                ) : null}
+                {isApproved && callup.status !== 'FINALIZED' ? (
+                  <form action={finalizeSquadForm.bind(null, locale, callup.id)}>
+                    <button className="rounded bg-emerald-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-emerald-800">{t('nteam.finalize')}</button>
+                  </form>
+                ) : null}
+              </div>
             </div>
             {squad.length === 0 ? (
               <EmptyState message={t('common.noData')} />
