@@ -43,6 +43,7 @@ const MENU_GROUPS = [
     key: 'operation',
     items: [
       { key: 'events', path: '/events' },
+      { key: 'nationalTeams', path: '/national-teams' },
       { key: 'payments', path: '/payments' },
       { key: 'grants', path: '/grants' },
       { key: 'sponsors', path: '/sponsorship' },

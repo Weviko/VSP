@@ -1084,3 +1084,51 @@ export async function trackIntegrityReport(code: string): Promise<IntegrityTrack
     closedAt: row.closed_at,
   };
 }
+
+// ── 국가대표 (공개) ────────────────────────────────────────────────────────
+// pub.national_team · pub.national_team_member 만 조회. 확정 명단은 공개 대표선수(pub.athlete)만 노출.
+
+export interface PublicNationalTeam {
+  id: UUID;
+  sport_id: UUID;
+  sport_name: I18nText;
+  team_name: I18nText;
+  age_class: string;
+  gender: string;
+}
+
+export async function listPublicNationalTeams(): Promise<PublicNationalTeam[]> {
+  return query<PublicNationalTeam>(
+    `SELECT * FROM pub.national_team ORDER BY sport_name->>'vi', age_class, gender`
+  );
+}
+
+export async function getPublicNationalTeam(id: string): Promise<PublicNationalTeam | null> {
+  if (!isUuid(id)) return null;
+  return queryOne<PublicNationalTeam>(`SELECT * FROM pub.national_team WHERE id = $1`, [id]);
+}
+
+export interface PublicNationalTeamMember {
+  person_id: UUID;
+  full_name: string;
+  name_latin: string | null;
+  birth_year: number | null;
+  squad_role: string;
+  jersey_no: string | null;
+  competition_name_i18n: I18nText | null;
+  starts_on: string | null;
+  ends_on: string | null;
+}
+
+/** 대표팀의 확정 명단(공개). 미성년·비공개 선수는 pub.athlete 조인으로 자동 제외된다. */
+export async function getPublicNationalTeamRoster(teamId: string): Promise<PublicNationalTeamMember[]> {
+  if (!isUuid(teamId)) return [];
+  return query<PublicNationalTeamMember>(
+    `SELECT person_id, full_name, name_latin, birth_year, squad_role, jersey_no,
+            competition_name_i18n, starts_on::text AS starts_on, ends_on::text AS ends_on
+       FROM pub.national_team_member
+      WHERE national_team_id = $1
+      ORDER BY starts_on DESC NULLS LAST, full_name`,
+    [teamId]
+  );
+}

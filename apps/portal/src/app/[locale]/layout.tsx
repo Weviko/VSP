@@ -79,6 +79,7 @@ export default async function PortalLayout({
             { key: 'results', href: `${base}/results`, label: t('nav.results') },
             { key: 'rankings', href: `${base}/rankings`, label: t('nav.rankings') },
             { key: 'athletes', href: `${base}/athletes`, label: t('nav.athletes') },
+            { key: 'nteam', href: `${base}/national-teams`, label: t('nteam.title') },
             { key: 'news', href: `${base}/news`, label: t('nav.news') },
             { key: 'sponsors', href: `${base}/sponsorship`, label: t('nav.sponsors') },
           ]}

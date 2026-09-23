@@ -98,10 +98,20 @@ const CONTRACT: Array<[string, string[]]> = [
   ['integrity.cat', ['VIOLENCE', 'SEXUAL', 'MATCH_FIXING', 'CORRUPTION', 'OTHER']],
   ['integrity.st', ['RECEIVED', 'SCREENING', 'INVESTIGATING', 'DECIDED', 'CLOSED', 'DISMISSED']],
   ['integrity.mt', ['WARNING', 'SUSPENSION', 'BAN', 'EDU_ORDER', 'REFERRAL']],
+  // 국가대표: 연령급·성별·소집유형·승인/소집상태·역할·명단상태·선발근거·자격사유를 t(`nteam.*.${x}`) 로 렌더
+  ['nteam.age', ['SENIOR', 'U23', 'U20', 'YOUTH']],
+  ['nteam.gender', ['M', 'F', 'MIXED']],
+  ['nteam.ctype', ['SELECTION', 'CAMP', 'COMPETITION_ENTRY']],
+  ['nteam.astatus', ['DRAFT', 'SUBMITTED', 'APPROVED', 'REJECTED']],
+  ['nteam.cstatus', ['PLANNED', 'OPEN', 'FINALIZED', 'CANCELLED']],
+  ['nteam.role', ['ATHLETE', 'COACH', 'MANAGER', 'MEDICAL', 'RESERVE']],
+  ['nteam.mstatus', ['NOMINATED', 'SELECTED', 'CONFIRMED', 'DECLINED', 'WITHDRAWN', 'REPLACED']],
+  ['nteam.source', ['TRIAL', 'RANKING', 'DISCRETIONARY']],
+  ['nteam.reason', ['NOT_REGISTERED', 'NOT_APPROVED', 'SUSPENDED', 'ANTIDOPING_EDUCATION_MISSING', 'SAFEGUARDING_EDUCATION_MISSING', 'UNPAID_FEE']],
   // 업무 좌측 메뉴는 t(`nav.${key}`) 로 렌더된다
   ['nav', ['dashboard', 'ingest', 'approvals', 'organizations', 'people', 'registrations', 'seasons', 'import',
     'certificates', 'events', 'payments', 'grants', 'sponsors', 'content', 'polls', 'ads', 'users', 'integrity',
-    'documents', 'notifications', 'audit', 'reports', 'settings']],
+    'nationalTeams', 'documents', 'notifications', 'audit', 'reports', 'settings']],
 ];
 for (const [prefix, values] of CONTRACT) {
   const miss = values.filter((v) => !koKeys.has(`${prefix}.${v}`));
