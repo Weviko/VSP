@@ -114,10 +114,16 @@ const CONTRACT: Array<[string, string[]]> = [
   ['adop.stype', ['SUSPENSION', 'WARNING', 'DQ']],
   ['adop.sstatus', ['ACTIVE', 'SERVED', 'APPEALED', 'ANNULLED']],
   ['adop.result', ['NEG', 'POS']],
+  // 생활체육 클럽: 유형·상태·역할·프로그램대상·프로그램상태를 t(`club.*.${x}`) 로 렌더
+  ['club.ctype', ['COMMUNITY', 'PUBLIC', 'DESIGNATED']],
+  ['club.cstatus', ['DRAFT', 'SUBMITTED', 'APPROVED', 'REJECTED', 'SUSPENDED', 'CLOSED']],
+  ['club.role', ['MEMBER', 'LEADER', 'INSTRUCTOR']],
+  ['club.pcat', ['YOUTH', 'ADULT', 'SENIOR', 'PARA', 'ALL']],
+  ['club.pstatus', ['DRAFT', 'OPEN', 'CLOSED', 'FINISHED']],
   // 업무 좌측 메뉴는 t(`nav.${key}`) 로 렌더된다
   ['nav', ['dashboard', 'ingest', 'approvals', 'organizations', 'people', 'registrations', 'seasons', 'import',
     'certificates', 'events', 'payments', 'grants', 'sponsors', 'content', 'polls', 'ads', 'users', 'integrity',
-    'nationalTeams', 'antidoping', 'documents', 'notifications', 'audit', 'reports', 'settings']],
+    'nationalTeams', 'antidoping', 'clubs', 'documents', 'notifications', 'audit', 'reports', 'settings']],
 ];
 for (const [prefix, values] of CONTRACT) {
   const miss = values.filter((v) => !koKeys.has(`${prefix}.${v}`));

@@ -1163,3 +1163,46 @@ export interface PublicAntidopingStat { year: number; tests: number; aaf: number
 export async function getAntidopingStats(): Promise<PublicAntidopingStat[]> {
   return query<PublicAntidopingStat>(`SELECT year, tests, aaf, educated FROM pub.antidoping_stat`);
 }
+
+// ── 생활체육 클럽 (공개) ──────────────────────────────────────────────────
+// pub.club · pub.club_program · pub.stat_club_by_region 만 조회. 회원 개인정보 없음.
+
+export interface PublicClub {
+  id: UUID; name_i18n: I18nText; short_name: string | null; sport_id: UUID; sport_name: I18nText;
+  region_code: string | null; club_type: string; venue_text: string | null; member_count: number;
+}
+export async function listPublicClubs(filter: { regionCode?: string | null; sportId?: string | null } = {}): Promise<PublicClub[]> {
+  return query<PublicClub>(
+    `SELECT * FROM pub.club
+      WHERE ($1::text IS NULL OR region_code = $1)
+        AND ($2::uuid IS NULL OR sport_id = $2)
+      ORDER BY name_i18n->>'vi'`,
+    [filter.regionCode ?? null, filter.sportId && isUuid(filter.sportId) ? filter.sportId : null]
+  );
+}
+export async function getPublicClub(id: string): Promise<PublicClub | null> {
+  if (!isUuid(id)) return null;
+  return queryOne<PublicClub>(`SELECT * FROM pub.club WHERE id = $1`, [id]);
+}
+
+export interface PublicClubProgram {
+  id: UUID; club_id: UUID; club_name: I18nText; region_code: string | null;
+  name_i18n: I18nText; category: string; schedule_text: string | null; capacity: number | null;
+  enrolled_count: number; starts_on: string | null; ends_on: string | null;
+}
+export async function listPublicPrograms(filter: { clubId?: string | null; regionCode?: string | null } = {}): Promise<PublicClubProgram[]> {
+  return query<PublicClubProgram>(
+    `SELECT id, club_id, club_name, region_code, name_i18n, category, schedule_text, capacity,
+            enrolled_count, starts_on::text AS starts_on, ends_on::text AS ends_on
+       FROM pub.club_program
+      WHERE ($1::uuid IS NULL OR club_id = $1)
+        AND ($2::text IS NULL OR region_code = $2)
+      ORDER BY starts_on DESC NULLS LAST`,
+    [filter.clubId && isUuid(filter.clubId) ? filter.clubId : null, filter.regionCode ?? null]
+  );
+}
+
+export interface ClubRegionStat { region_code: string | null; clubs: number; members: number; programs: number; }
+export async function getClubStatsByRegion(): Promise<ClubRegionStat[]> {
+  return query<ClubRegionStat>(`SELECT region_code, clubs, members, programs FROM pub.stat_club_by_region ORDER BY clubs DESC, region_code`);
+}

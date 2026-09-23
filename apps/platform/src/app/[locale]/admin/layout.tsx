@@ -37,6 +37,7 @@ const MENU_GROUPS = [
       { key: 'seasons', path: '/seasons' },
       { key: 'import', path: '/import' },
       { key: 'certificates', path: '/certificates' },
+      { key: 'clubs', path: '/clubs' },
     ],
   },
   {

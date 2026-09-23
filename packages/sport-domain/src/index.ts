@@ -4,5 +4,6 @@ export * from './registration';
 export * from './event';
 export * from './national-team';
 export * from './antidoping';
+export * from './club';
 export * from './athlete-search';
 export * from './stats';

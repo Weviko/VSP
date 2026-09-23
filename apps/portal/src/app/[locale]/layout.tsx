@@ -81,6 +81,7 @@ export default async function PortalLayout({
             { key: 'athletes', href: `${base}/athletes`, label: t('nav.athletes') },
             { key: 'nteam', href: `${base}/national-teams`, label: t('nteam.title') },
             { key: 'news', href: `${base}/news`, label: t('nav.news') },
+            { key: 'clubs', href: `${base}/clubs`, label: t('club.title') },
             { key: 'sponsors', href: `${base}/sponsorship`, label: t('nav.sponsors') },
           ]}
           sportTabs={[
